@@ -13,6 +13,8 @@ let
   qs = lib.getExe pkgs.quickshell;
 in
 {
+  imports = [ ./native-game-fixes.nix ];
+
   options.dot.gui.game.enable = mkEnableOption "game tooling";
 
   config = mkIf (gui.enable && cfg.enable) {
