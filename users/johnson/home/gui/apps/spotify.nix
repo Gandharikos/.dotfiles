@@ -1,6 +1,7 @@
 {
   self,
   inputs,
+  inputs',
   lib,
   config,
   osConfig,
@@ -10,8 +11,6 @@
 let
   inherit (lib.options) mkEnableOption;
   inherit (lib.modules) mkMerge mkIf;
-  # inherit (pkgs.stdenv.hostPlatform) isLinux;
-  inherit (pkgs.stdenv.hostPlatform) system;
   inherit (config.home) homeDirectory;
   inherit (config.my) name;
   cfg = config.my.gui.apps.spotify;
@@ -38,10 +37,15 @@ in
     (mkIf enable {
       programs.spicetify =
         let
-          spicePkgs = inputs.spicetify-nix.legacyPackages.${system};
+          spicePkgs = inputs'.spicetify-nix.legacyPackages;
         in
         {
           enable = true;
+          spotifyPackage =
+            if pkgs.stdenv.hostPlatform.isLinux then
+              pkgs.spotify.override { ffmpeg_4 = pkgs.ffmpeg; }
+            else
+              pkgs.spotify;
           # windowManagerPatch = isLinux;
           enabledCustomApps = with spicePkgs.apps; [
             lyricsPlus
@@ -53,6 +57,9 @@ in
           ];
           enabledExtensions = with spicePkgs.extensions; [
             adblock
+            aiBandBlocker
+            volumePercentage
+            copyToClipboard
             fullAppDisplay
             keyboardShortcut
             hidePodcasts
