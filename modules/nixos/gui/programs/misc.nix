@@ -15,6 +15,19 @@ in
     ];
 
     programs = {
+      chromium = {
+        enable = true;
+        defaultSearchProviderEnabled = true;
+        defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
+        defaultSearchProviderSuggestURL = "https://duckduckgo.com/ac/?q={searchTerms}&type=list";
+        extraOpts = {
+          DefaultSearchProviderName = "DuckDuckGo";
+          DefaultSearchProviderKeyword = "ddg";
+          DefaultSearchProviderIconURL = "https://duckduckgo.com/favicon.ico";
+          DefaultSearchProviderEncodings = [ "UTF-8" ];
+        };
+      };
+
       # dconf is a low-level configuration system.
       # we neet it to interact with gtk
       dconf.enable = true;

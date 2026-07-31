@@ -8,8 +8,11 @@
 let
   inherit (lib.options) mkEnableOption;
   inherit (lib.modules) mkIf;
-  inherit (lib.lists) concatLists;
-  inherit (lib.strings) concatMapStrings enableFeature;
+  inherit (lib.lists) concatLists head;
+  inherit (lib.meta) getExe';
+  inherit (lib.strings) concatMapStrings enableFeature getVersion;
+  inherit (lib.versions) splitVersion;
+  inherit (lib.dot) uwsmAppArgs;
   cfg = config.my.gui.apps.chromium;
   enable = osConfig.dot.gui.enable && cfg.enable;
 
@@ -25,7 +28,7 @@ let
       inherit id version;
       crxPath = pkgs.fetchurl {
         name = "${id}.crx";
-        url = "https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&prodversion=149&x=id%3D${id}%26installsource%3Dondemand%26uc";
+        url = "https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&prodversion=${head (splitVersion (getVersion config.programs.chromium.package))}&x=id%3D${id}%26installsource%3Dondemand%26uc";
         inherit hash;
       };
     };
@@ -39,26 +42,105 @@ in
 
   config = mkIf enable {
     programs.chromium = {
+      enable = true;
+
       extensions = map extension [
+        # OneTab
+        {
+          id = "chphlpgkkbolifaimnlloiipkdnihall";
+          version = "2.18";
+          hash = "sha256-BWg/RRnN6/lVmf1Pc07vzA3noGaNX3J64IrCKuAV5Qk=";
+        }
+
+        # Obsidian Web Clipper
+        {
+          id = "cnjifjpddelmedmihgijeibhnjfabmlf";
+          version = "1.7.1";
+          hash = "sha256-H32I06Rx3LArg1/ysJfcsapIpwWlUufkwu9Xamx1NGc=";
+        }
+
+        # Dark Reader
+        {
+          id = "eimadpbcbfnmbkopoojfekhnkhdbieeh";
+          version = "4.9.129";
+          hash = "sha256-ncsb1tytQ4kt3AKP9l+YLfPtuhNammRF5PpxZx43qhM=";
+        }
+
+        # Vimium C
+        {
+          id = "hfjbmagddngcpeloejdejnfgbamkjaeg";
+          version = "2.12.2";
+          hash = "sha256-1kiLH+QIjOIheJXFNE/BKJ7tWZLvwHpr6ec1cLIlBCM=";
+        }
+
+        # Undo Closed Tabs Button
+        {
+          id = "ieehkmoiljghfkejgahoheemdjpdinml";
+          version = "0.2.4";
+          hash = "sha256-AEdtNiDLyhjTC0sFptdwFpiVRD4K03/cf4atcD0BPes=";
+        }
+
+        # Vicinae Integration
+        {
+          id = "kcmipingpfbohfjckomimmahknoddnke";
+          version = "1.0.0";
+          hash = "sha256-P9ZWnHGwYhdOMEU0onWb8nAPfczi//HpgQ4H/yLdPx0=";
+        }
+
+        # Unhook
+        {
+          id = "khncfooichmfjbepaaaebmommgaepoid";
+          version = "1.6.9";
+          hash = "sha256-hiKyaY3/CLquJqjDY49STmbfwSVi5yhpSBn6HvLigCM=";
+        }
+
+        # BroTab
+        {
+          id = "mhpeahbikehnfkfnmopaigggliclhmnc";
+          version = "1.4.0";
+          hash = "sha256-rgoYW39JbAyER/ilFB2f1ellMTLeS5wVGs4fDv2ccrU=";
+        }
+
+        # Video Speed Controller
+        {
+          id = "nffaoalbilbmmfgbnbgppjihopabppdk";
+          version = "0.10.2";
+          hash = "sha256-bJUxLYTCx+UCbpxZW0+By4NfK2oiYxWbhy+766a0dUY=";
+        }
+
+        # ChatGPT Equation Renderer
+        {
+          id = "nkkkaendbndanjjndfpebmekhgdjlhkh";
+          version = "1.1.2";
+          hash = "sha256-kVxQHBr0LQhdk2yPS/+ue2BrHQrxNPTqShL8xSuLjDM=";
+        }
+
+        # Linkwarden
+        {
+          id = "pnidmkljnhbjfffciajlcpeldoljnidn";
+          version = "1.5.4";
+          hash = "sha256-EMi7YP40UNYQ1qZ5Rf1eRWvfaIJIGqma0PepcyIyl4k=";
+        }
+
         # uBlock Origin
         {
           id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-          version = "1.72.0";
-          hash = "sha256-b18FKOXz5mGKbIMd5TvmXz95KQ7fTT44Qzk46xGCQ/I=";
+          version = "1.72.2";
+          hash = "sha256-bgLY5tzlae7HIbUx+cfShAPlQmRCQX1ahVoX3SiLVvg=";
         }
 
         # stylus
         {
           id = "clngdbkpkpeebahjckkjfobafhncgmne";
-          version = "2.4.2";
-          hash = "sha256-3K3NCSJFyoY3Z5aEWNi2DWAucilJ3urHDuwSsev2Sv4=";
+          version = "2.4.5";
+          hash = "sha256-mST2glhYqJuYce1SDxnqHdSIaVsGJ/m5CTcE8Tlib2E=";
         }
 
         # Bitwarden
         {
           id = "nngceckbapebfimnlniiiahkandclblb";
-          version = "2026.6.0";
-          hash = "sha256-szBs8uPHBpgx4VAprSLOtD1XOAjUgecoAp6aJsvuT74=";
+          version = "2026.7.0";
+          hash = "sha256-PwXLkgGS9YjvBRUHgwiEtqiXkXmWngv3xA4Boqj9f74=";
         }
 
         # at://wormhole
@@ -99,15 +181,15 @@ in
         # Control Panel for Twitter
         {
           id = "kpmjjdhbcfebfjgdnpjagcndoelnidfj";
-          version = "4.22.5";
-          hash = "sha256-CmJoZ+5vsk/T8cTP0LE+oGs8EM5nlzrLWn2MzoEMldM=";
+          version = "4.23.0";
+          hash = "sha256-6H757aZJv1ArCN2qVMkn4WX9CFtE6CWfOzGggp1X1Cc=";
         }
 
         # refined github
         {
           id = "hlepfoohegkhhmjieoechaddaejaokhf";
-          version = "26.6.7";
-          hash = "sha256-Iht2QFqg3FixCfuX9fl4/SA9iXiK4x4t+vnlbS8Di1I=";
+          version = "26.7.26";
+          hash = "sha256-G0ht0WUH+I5e7UJHbw9NvTKvV77rNjP8ox9PKbvJMYI=";
         }
       ];
 
@@ -289,6 +371,15 @@ in
           ]
         ];
       };
+    };
+
+    my.gui.browser = mkIf (config.my.gui.browser.default == "chromium") {
+      desktopId = "chromium-browser.desktop";
+      command =
+        if osConfig.dot.gui.desktop.uwsm.enable then
+          uwsmAppArgs pkgs (getExe' config.programs.chromium.package "chromium") [ ]
+        else
+          [ (getExe' config.programs.chromium.package "chromium") ];
     };
   };
 }

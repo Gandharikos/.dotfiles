@@ -121,6 +121,10 @@ in
         force = true;
         text = browserLinkManifest;
       };
+      ".config/chromium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
+        force = true;
+        text = browserLinkManifest;
+      };
     };
   };
 }

@@ -37,6 +37,10 @@ in
         force = true;
         text = chromiumManifest;
       };
+      ".config/chromium/NativeMessagingHosts/brotab_mediator.json" = {
+        force = true;
+        text = chromiumManifest;
+      };
     };
   };
 }

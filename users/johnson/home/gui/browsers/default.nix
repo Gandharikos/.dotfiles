@@ -43,7 +43,7 @@ in
         "firefox"
         "helium"
       ]);
-      default = if osConfig.dot.gui.enable && osClass == "nixos" then "helium" else null;
+      default = if osConfig.dot.gui.enable && osClass == "nixos" then "chromium" else null;
       description = "The browser to use";
     };
     desktopId = mkOption {

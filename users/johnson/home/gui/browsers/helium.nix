@@ -25,8 +25,6 @@ in
   };
 
   config = mkIf enable {
-    my.gui.browser.desktopId = "helium.desktop";
-
     programs.helium = {
       enable = true;
       package = heliumPkg;
@@ -42,10 +40,13 @@ in
       };
     };
 
-    my.gui.browser.command =
-      if osConfig.dot.gui.desktop.uwsm.enable then
-        uwsmAppArgs pkgs (getExe' heliumPkg "helium") [ ]
-      else
-        [ (getExe' heliumPkg "helium") ];
+    my.gui.browser = mkIf (config.my.gui.browser.default == "helium") {
+      desktopId = "helium.desktop";
+      command =
+        if osConfig.dot.gui.desktop.uwsm.enable then
+          uwsmAppArgs pkgs (getExe' heliumPkg "helium") [ ]
+        else
+          [ (getExe' heliumPkg "helium") ];
+    };
   };
 }
