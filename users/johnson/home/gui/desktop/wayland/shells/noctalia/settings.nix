@@ -95,7 +95,7 @@ in
     per_monitor_directories = false;
     automation = {
       enabled = true;
-      interval_seconds = 900;
+      interval_seconds = 5400;
       order = "random";
       recursive = true;
     };

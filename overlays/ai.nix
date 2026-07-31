@@ -5,7 +5,7 @@
     let
       system = final.stdenv.hostPlatform.system;
       llmAgentPackages = inputs.llm-agents.packages.${system};
-      hermesDesktopElectronHeadersHash = "sha256-zOl8rx6woWh7aeRUOlkTMviKc/EAQQX6nr/MxAx1ZPI=";
+      hermesDesktopElectronHeadersHash = "sha256-f8bSbLRmtbP93CJAvEBs+sHWDZ1xP2bcpLhC1EnOmZU=";
       hermesDesktopPkgs = final // {
         fetchurl =
           args:
@@ -13,7 +13,7 @@
             args
             //
               final.lib.optionalAttrs
-                (args.url == "https://artifacts.electronjs.org/headers/dist/v41.9.1/node-v41.9.1-headers.tar.gz")
+                (args.url == "https://artifacts.electronjs.org/headers/dist/v41.10.3/node-v41.10.3-headers.tar.gz")
                 {
                   sha256 = hermesDesktopElectronHeadersHash;
                 }

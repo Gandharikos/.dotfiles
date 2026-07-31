@@ -40,7 +40,7 @@ in
     services.mullvad-vpn = {
       enable = true;
       enableExcludeWrapper = false;
-      package = if config.dot.gui.enable then pkgs.mullvad-vpn else pkgs.mullvad;
+      gui.enable = config.dot.gui.enable;
     };
 
     preservation.preserveAt."/persist".directories = mkIf config.dot.persistence.enable [
