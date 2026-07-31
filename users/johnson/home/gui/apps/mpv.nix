@@ -59,6 +59,7 @@ in
 
             mpv-image-viewer.image-positioning
             mpvacious
+            pkgs.dot.mpv-lang-learner
           ])
           ++ lib.optionals isLinux [ pkgs.mpvScripts.mpris ];
       };
@@ -155,6 +156,17 @@ in
       };
 
       scriptOpts = {
+        "lang-learner" = {
+          learn = "eng en";
+          know = "zho zh chi";
+          browser = lib.getExe' pkgs.xdg-utils "xdg-open";
+          store_dir = "${videosDirectory}/Language Learning";
+
+          key_toggle_lang = "Ctrl+b";
+          key_cycle_known = "Ctrl+Shift+b";
+          key_seek_cur_sub = "Ctrl+g";
+        };
+
         modernz = {
           idlescreen = "no";
           download_path = videosDirectory;
