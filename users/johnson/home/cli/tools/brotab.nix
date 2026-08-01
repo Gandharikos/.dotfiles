@@ -6,6 +6,7 @@
 }:
 let
   cfg = config.my.brotab;
+  inherit (lib.attrsets) optionalAttrs;
   inherit (lib.options) mkEnableOption;
   inherit (lib.modules) mkIf;
   chromiumManifest = builtins.toJSON {
@@ -28,19 +29,23 @@ in
   config = mkIf cfg.enable {
     home.packages = [ pkgs.brotab ];
 
-    home.file = mkIf pkgs.stdenv.isLinux {
-      ".config/net.imput.helium/NativeMessagingHosts/brotab_mediator.json" = {
-        force = true;
-        text = chromiumManifest;
-      };
-      ".config/helium/NativeMessagingHosts/brotab_mediator.json" = {
-        force = true;
-        text = chromiumManifest;
-      };
-      ".config/chromium/NativeMessagingHosts/brotab_mediator.json" = {
-        force = true;
-        text = chromiumManifest;
-      };
-    };
+    home.file = mkIf pkgs.stdenv.isLinux (
+      optionalAttrs config.programs.chromium.enable {
+        ".config/chromium/NativeMessagingHosts/brotab_mediator.json" = {
+          force = true;
+          text = chromiumManifest;
+        };
+      }
+      // optionalAttrs config.programs.helium.enable {
+        ".config/net.imput.helium/NativeMessagingHosts/brotab_mediator.json" = {
+          force = true;
+          text = chromiumManifest;
+        };
+        ".config/helium/NativeMessagingHosts/brotab_mediator.json" = {
+          force = true;
+          text = chromiumManifest;
+        };
+      }
+    );
   };
 }

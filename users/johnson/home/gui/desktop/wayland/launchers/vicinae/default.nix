@@ -112,19 +112,23 @@ in
       launcher = vicinaeToggle;
     };
 
-    home.file = mkIf pkgs.stdenv.isLinux {
-      ".config/net.imput.helium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
-        force = true;
-        text = browserLinkManifest;
-      };
-      ".config/helium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
-        force = true;
-        text = browserLinkManifest;
-      };
-      ".config/chromium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
-        force = true;
-        text = browserLinkManifest;
-      };
-    };
+    home.file = mkIf pkgs.stdenv.isLinux (
+      optionalAttrs config.programs.chromium.enable {
+        ".config/chromium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
+          force = true;
+          text = browserLinkManifest;
+        };
+      }
+      // optionalAttrs config.programs.helium.enable {
+        ".config/net.imput.helium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
+          force = true;
+          text = browserLinkManifest;
+        };
+        ".config/helium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
+          force = true;
+          text = browserLinkManifest;
+        };
+      }
+    );
   };
 }

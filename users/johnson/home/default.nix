@@ -77,8 +77,6 @@ in
 
     gui.apps.discord.enable = !isMinimal;
 
-    gui.apps.helium.enable = !isMinimal;
-
     gui.apps.slack.enable = !isMinimal;
 
     gui.apps.telegram.enable = !isMinimal;
