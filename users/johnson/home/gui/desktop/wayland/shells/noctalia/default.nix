@@ -44,6 +44,16 @@ in
       settings = baseSettings;
     };
 
+    # UWSM intentionally keeps session-specific variables such as XDG_SESSION_ID
+    # out of the systemd user manager environment because they belong to one login
+    # session. Noctalia runs as a user service, so its GetSessionByPID fallback sees
+    # the manager session instead and cannot subscribe to the graphical session's
+    # logind Lock/Unlock signals. Import UWSM's per-session environment file so
+    # commands such as Vicinae's `Lock Session` reach Noctalia's lock screen.
+    systemd.user.services.noctalia.Service = lib.mkIf osConfig.dot.gui.desktop.uwsm.enable {
+      EnvironmentFile = "%t/uwsm/env_session.conf";
+    };
+
     home.packages = [
       pkgs.evtest
     ];
