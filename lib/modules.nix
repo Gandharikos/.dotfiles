@@ -84,8 +84,8 @@ let
         gnugrep
         gnutar
         postgresql
-        sudo
         systemd
+        util-linux
         zstd
       ];
       text = ''
@@ -101,13 +101,13 @@ let
         mkdir -p "$(dirname "$output")" "$workdir/postgresql" "$workdir/var/lib"
 
         if systemctl is-active --quiet postgresql.service; then
-          sudo -u postgres pg_dumpall \
+          runuser -u postgres -- pg_dumpall \
             | zstd -T0 -19 -o "$workdir/postgresql/all.sql.zst" > /dev/null
-          sudo -u postgres pg_dumpall --globals-only | tee "$workdir/postgresql/globals.sql" > /dev/null
-          sudo -u postgres psql -Atqc "SELECT datname FROM pg_database WHERE datname IN ('miniflux', 'vaultwarden', 'wakapi', 'linkwarden', 'roundcube', 'paperless', 'dawarich', 'immich')" \
+          runuser -u postgres -- pg_dumpall --globals-only | tee "$workdir/postgresql/globals.sql" > /dev/null
+          runuser -u postgres -- psql -Atqc "SELECT datname FROM pg_database WHERE datname IN ('miniflux', 'vaultwarden', 'wakapi', 'linkwarden', 'roundcube', 'paperless', 'dawarich', 'immich')" \
             | while IFS= read -r database; do
                 [ -n "$database" ] || continue
-                sudo -u postgres pg_dump --format=custom "$database" \
+                runuser -u postgres -- pg_dump --format=custom "$database" \
                   | tee "$workdir/postgresql/$database.dump" > /dev/null
               done
         fi

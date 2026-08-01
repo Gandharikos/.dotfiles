@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 let
@@ -16,6 +17,11 @@ in
     };
 
   config = mkIf cfg.enable {
-    services.postgresql.enable = true;
+    services.postgresql = {
+      enable = true;
+
+      # PostgreSQL major upgrades require an explicit data migration.
+      package = pkgs.postgresql_18;
+    };
   };
 }

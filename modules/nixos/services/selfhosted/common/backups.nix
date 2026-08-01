@@ -190,12 +190,6 @@ in
         description = "Restic repository used for self-hosted backups.";
       };
 
-      passwordFile = mkOption {
-        type = str;
-        default = "/var/lib/selfhosted-backup/restic-password";
-        description = "Restic repository password file.";
-      };
-
       pruneOpts = mkOption {
         type = listOf str;
         default = [
