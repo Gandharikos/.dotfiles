@@ -30,6 +30,7 @@
       printing.enable = true;
       fwupd.enable = true;
       asus.enable = true;
+      logind.powerKey = "ignore";
     };
     gui.game.enable = true;
     virtual.enable = true;
