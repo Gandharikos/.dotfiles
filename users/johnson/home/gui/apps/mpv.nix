@@ -55,6 +55,7 @@ in
             (videoclip.override { wl-clipboard = pkgs.wl-clipboard-rs; })
 
             modernz
+            quality-menu
             thumbfast
 
             mpv-image-viewer.image-positioning
@@ -83,6 +84,8 @@ in
         "Shift+a" = "cycle-values video-aspect \"16:9\" \"4:3\" \"2.35:1\" \"-1\"";
 
         "c" = "script-binding videoclip-menu-open";
+        "F" = "script-binding quality_menu/video_formats_toggle";
+        "Alt+f" = "script-binding quality_menu/audio_formats_toggle";
 
         MBTN_RIGHT = "script-binding drag-to-pan";
         "alt+down" = "repeatable script-message pan-image y -0.01 yes yes";
@@ -97,6 +100,8 @@ in
         msg-color = "yes";
         msg-module = "yes";
 
+        autocreate-playlist = "same";
+        save-position-on-quit = "yes";
         save-watch-history = "yes";
 
         volume-max = 200;
@@ -114,6 +119,7 @@ in
         screenshot-high-bit-depth = "yes";
 
         alang = "en,zh,zho,chi,jpn,jp";
+        slang = "zh,zho,chi,en,eng";
 
         stop-screensaver = "yes";
         cursor-autohide = 100;
