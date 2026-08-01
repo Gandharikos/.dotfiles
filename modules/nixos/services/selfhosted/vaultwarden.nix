@@ -6,6 +6,7 @@
 let
   cfg = config.dot.selfhosted.services.vaultwarden;
   selfhosted = config.dot.selfhosted;
+  inherit (lib.attrsets) optionalAttrs;
   inherit (lib.modules) mkIf;
   inherit (lib.options) mkOption;
   inherit (lib.types)
@@ -111,6 +112,13 @@ in
         SIGNUPS_ALLOWED = cfg.allowRegistration;
         SIGNUPS_VERIFY = cfg.verifySignups;
         USE_SYSLOG = true;
+      }
+      // optionalAttrs selfhosted.services.mailserver.enable {
+        SMTP_FROM = "vaultwarden@${selfhosted.domain}";
+        SMTP_FROM_NAME = "Vaultwarden";
+        SMTP_HOST = "127.0.0.1";
+        SMTP_PORT = 25;
+        SMTP_SECURITY = "off";
       };
     };
 
