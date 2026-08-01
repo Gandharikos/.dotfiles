@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -19,7 +20,10 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.niri.enable = true;
+    programs.niri = {
+      enable = true;
+      package = pkgs.niri-unstable;
+    };
 
     programs.uwsm.waylandCompositors.niri = {
       prettyName = "niri";

@@ -25,6 +25,7 @@ in
   config = mkIf cfg.enable {
     programs.niri = {
       enable = true;
+      package = pkgs.niri-unstable;
       settings = {
         gestures.hot-corners.enable = false;
         xwayland-satellite = {

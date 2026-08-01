@@ -221,6 +221,7 @@ with osConfig.dot.keyboard.keys;
           "${modKey}+F".action.fullscreen-window = [ ];
           "${modKey}+Shift+F".action.toggle-window-floating = [ ];
           "${modKey}+M".action.maximize-column = [ ];
+          "${modKey}+Shift+M".action.maximize-window-to-edges = [ ];
           "${modKey}+C".action.center-column = [ ];
           "${modKey}+R".action.switch-preset-column-width = [ ];
           "${modKey}+Shift+R".action.switch-preset-window-height = [ ];

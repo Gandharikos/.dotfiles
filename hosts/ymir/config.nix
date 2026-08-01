@@ -30,9 +30,11 @@
       printing.enable = true;
       fwupd.enable = true;
       asus.enable = true;
-      logind.powerKey = "ignore";
     };
-    gui.game.enable = true;
+    gui = {
+      desktop.default = "niri";
+      game.enable = true;
+    };
     virtual.enable = true;
     persistence.enable = true;
     device = {
