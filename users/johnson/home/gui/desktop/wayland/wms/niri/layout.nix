@@ -4,13 +4,14 @@
   ...
 }:
 let
-  inherit (lib.modules) mkIf;
+  inherit (lib.modules) mkForce mkIf;
   cfg = config.my.gui.desktop.niri;
 in
 {
   config = mkIf cfg.enable {
     programs.niri.settings = {
       layout = {
+        background-color = mkForce "transparent";
         shadow.enable = true;
         center-focused-column = "never";
         always-center-single-column = true;

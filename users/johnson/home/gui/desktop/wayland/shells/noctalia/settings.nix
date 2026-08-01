@@ -130,7 +130,7 @@ in
     position = "top_right";
     layer = "overlay";
     scale = 1;
-    background_opacity = 1;
+    background_opacity = 0.72;
     offset_x = 20;
     offset_y = 8;
     monitors = [ ];
