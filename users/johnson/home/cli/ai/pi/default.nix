@@ -18,7 +18,7 @@ in
       context = aiCommon.base;
       settings = {
         defaultProvider = "openai-codex";
-        defaultModel = "gpt-5.5";
+        defaultModel = "gpt-5.6-sol";
         defaultThinkingLevel = "high";
         enableTelemetry = false;
         collapseChangelogs = true;
