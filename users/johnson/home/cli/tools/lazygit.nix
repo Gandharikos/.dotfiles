@@ -50,10 +50,10 @@ with osConfig.dot.keyboard.keys;
           splitDiff = "auto";
         };
         git = {
-          pagers = [
+          diffRenderers = [
             {
               colorArg = "always";
-              pager = "${lib.getExe' pkgs.delta "delta"} --dark --paging=never";
+              command = "${lib.getExe' pkgs.delta "delta"} --dark --paging=never";
               useConfig = false;
             }
           ];
