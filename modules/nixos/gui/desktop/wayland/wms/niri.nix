@@ -22,7 +22,7 @@ in
   config = mkIf cfg.enable {
     programs.niri = {
       enable = true;
-      package = pkgs.niri-unstable;
+      package = pkgs.niri;
     };
 
     programs.uwsm.waylandCompositors.niri = {
