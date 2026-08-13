@@ -38,14 +38,14 @@ in
       enable = true;
       enableMcpIntegration = mcpModuleEnabled;
 
-      plugins = [
-        (pkgs.fetchFromGitHub {
+      plugins = {
+        claude-code-wakatime = pkgs.fetchFromGitHub {
           owner = "wakatime";
           repo = "claude-code-wakatime";
           rev = "v3.1.6";
           sha256 = "14qym1qjli6k9andgjk1a4wdj5wf5apfw7dis6v1pa73xl4w6ybm";
-        })
-      ];
+        };
+      };
 
       settings = {
         theme = "dark";
