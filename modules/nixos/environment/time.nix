@@ -67,6 +67,13 @@ in
         };
       };
       location.provider = "geoclue2";
+      # GeoClue's Wi-Fi source requires wpa_supplicant, while NetworkManager uses iwd.
+      # Keep city-level timezone detection working through BeaconDB's IP source.
+      environment.etc."geoclue/conf.d/10-ip-source.conf".text = ''
+        [ip]
+        enable=true
+        method=ichnaea
+      '';
       # Prevent "Failed to open /etc/geoclue/conf.d/:" errors
       systemd.tmpfiles.rules = [
         "d /etc/geoclue/conf.d 0755 root root"
