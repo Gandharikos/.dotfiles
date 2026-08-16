@@ -4,7 +4,7 @@
   ...
 }:
 let
-  primaryUser = "michael";
+  primaryUser = "johnson";
 in
 {
   imports = [

@@ -8,9 +8,7 @@ keys:
   - &ymir age1f64lg3datsj9l5gq6ca2kuczzg9l2upu0ukavk3ykry5z59c4qnqtsdpgc
   - &sigurd age1m8f0m489vql2p7l4a80ehjh0ae4zgwcnjzv8ngjrsg957yjlcyrq35nvv8
   - &loki age1tgkc0ntq7407avss38tsewdur0rc339r5wesatmgp5wn2ya4e9kq4pslme
-  - &artemis age17wq6wc2l5fxwessue4ta87jpyhgy6ymnu6tgy6r2pv8ncf3td3essvvmph
   - &athena age14pews2ralyfymcfa7gw7egvmr5nrqsdzhrrrdhnpaxxm3ujwgpxq8nhn20
-  - &michael_age age1484zve5mrln0gxu8txgxhkw6l7g9svsqre25qy783j9ksrcdqspsxl4926
   # PGP key (requires Yubikey)
   - &johnson E23E274D412D4C761A871B1E776C7FC245E58F55
 
@@ -25,7 +23,6 @@ creation_rules:
           - *ymir
           - *sigurd
           - *loki
-          - *artemis
           - *athena
         pgp:
           - *johnson
@@ -34,21 +31,11 @@ creation_rules:
     key_groups:
       - pgp:
           - *johnson
-  - path_regex: ^(\./)?secrets/michael/core/.*
-    key_groups:
-      - pgp:
-          - *johnson
   # User-specific secrets: only user keys needed
   - path_regex: ^(\./)?secrets/johnson/[^/]+(?:\.(?:ya?ml|json|env|ini))?$
     key_groups:
       - age:
           - *johnson_age
-        pgp:
-          - *johnson
-  - path_regex: ^(\./)?secrets/michael/[^/]+(?:\.(?:ya?ml|json|ini|env))?$
-    key_groups:
-      - age:
-          - *michael_age
         pgp:
           - *johnson
   # Default secrets: all keys for backward compatibility
@@ -62,7 +49,6 @@ creation_rules:
           - *ymir
           - *sigurd
           - *loki
-          - *artemis
           - *athena
         pgp:
           - *johnson

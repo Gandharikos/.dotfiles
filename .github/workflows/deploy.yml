@@ -160,7 +160,7 @@ jobs:
             IdentityFile ~/.ssh/id_ed25519
             StrictHostKeyChecking yes
 
-          Host artemis loki sigurd
+          Host loki sigurd
             User johnson
             HostKeyAlias %h
             IdentitiesOnly yes
