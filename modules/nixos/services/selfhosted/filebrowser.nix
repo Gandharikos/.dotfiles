@@ -17,7 +17,7 @@ let
     else
       cfg;
   dataDirGroup = if oidcEnabled then "kanidm" else "filebrowser";
-  oauth2SecretDir = "${cfg.dataDir}/oauth2";
+  oauth2SecretDir = "/var/lib/kanidm/oauth2/filebrowser";
   oauth2ClientSecretFile = "${oauth2SecretDir}/client-secret";
   oauth2CookieSecretFile = "${oauth2SecretDir}/cookie-secret";
   oauth2EnvFile = "${oauth2SecretDir}/env";

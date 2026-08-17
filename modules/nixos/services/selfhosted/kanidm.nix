@@ -38,6 +38,9 @@ let
     ]
     ++ lib.optionals (services.filebrowser.enable && services.kanidm.enable) [
       "filebrowser-oauth2-secrets.service"
+    ]
+    ++ lib.optionals (services.immich.enable && services.kanidm.enable) [
+      "immich-oauth2-secrets.service"
     ];
   oauthConsumerServices =
     lib.optionals (services.code-server.enable && services.kanidm.enable) [
@@ -57,6 +60,9 @@ let
     ]
     ++ lib.optionals (services.filebrowser.enable && services.kanidm.enable) [
       "oauth2-proxy-filebrowser.service"
+    ]
+    ++ lib.optionals (services.immich.enable && services.kanidm.enable) [
+      "immich-server.service"
     ];
   inherit (lib) getExe optionalString;
   inherit (lib.modules) mkIf;
