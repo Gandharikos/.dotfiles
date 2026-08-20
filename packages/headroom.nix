@@ -30,7 +30,7 @@ let
     };
     "aarch64-darwin" = {
       platformTag = "macosx_11_0_arm64";
-      hash = "sha256-ALVLcFM8hB9HAv//ryFe/4S6/tYSwHpW1nXvih/6tUM=";
+      hash = "sha256-ALVLcFM8hB9HAv/68hXv+Euv7XYSwHpW1nXvih/6tUM=";
     };
   };
 
