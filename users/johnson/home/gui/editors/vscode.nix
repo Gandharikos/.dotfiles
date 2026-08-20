@@ -77,7 +77,7 @@ in
           "editor.fontFamily" = "Fira Code";
           "editor.fontLigatures" = true;
           "editor.fontSize" = 15;
-          "editor.fontWeight" = if pkgs.stdenv.isDarwin then 400 else 500;
+          "editor.fontWeight" = if pkgs.stdenv.hostPlatform.isDarwin then 400 else 500;
           "editor.inlineSuggest.enabled" = true;
           "editor.smoothScrolling" = true;
           "editor.unicodeHighlight.allowedLocales"."zh-hant" = true;
@@ -104,7 +104,7 @@ in
           "terminal.integrated.fontFamily" = "Brass Mono Code";
           "terminal.integrated.fontLigatures" = true;
           "terminal.integrated.fontSize" = 15;
-          "terminal.integrated.fontWeight" = if pkgs.stdenv.isDarwin then 400 else 500;
+          "terminal.integrated.fontWeight" = if pkgs.stdenv.hostPlatform.isDarwin then 400 else 500;
           "terminal.integrated.macOptionIsMeta" = true;
           "terminal.integrated.sendKeybindingsToShell" = true;
           "terminal.integrated.smoothScrolling" = true;

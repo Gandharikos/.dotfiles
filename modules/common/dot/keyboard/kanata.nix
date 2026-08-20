@@ -3,8 +3,8 @@
   # Helper to generate the kanata configuration string based on the platform.
   mkKanataConfig =
     {
-      isLinux ? pkgs.stdenv.isLinux,
-      isDarwin ? pkgs.stdenv.isDarwin,
+      isLinux ? pkgs.stdenv.hostPlatform.isLinux,
+      isDarwin ? pkgs.stdenv.hostPlatform.isDarwin,
     }:
     let
       # Define the bottom row based on the OS (6 keys each)

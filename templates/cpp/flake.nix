@@ -163,7 +163,7 @@
                 (generateCompileCommandsFor pkgs)
                 (runClangTidyFor pkgs)
               ]
-              ++ pkgs.lib.optionals pkgs.stdenv.isLinux [ pkgs.gdb ];
+              ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.gdb ];
 
             shellHook = ''
               ${preCommitCheck.shellHook}

@@ -31,7 +31,7 @@ stdenv.mkDerivation {
     qt6.qtbase
     qt6.qtdeclarative
   ]
-  ++ lib.optionals stdenv.isLinux [ qt6.qtwayland ];
+  ++ lib.optionals stdenv.hostPlatform.isLinux [ qt6.qtwayland ];
 
   cmakeFlags = [ "-DBUILD_TESTING=ON" ];
   doCheck = true;

@@ -29,7 +29,7 @@ in
   config = mkIf cfg.enable {
     home.packages = [ pkgs.brotab ];
 
-    home.file = mkIf pkgs.stdenv.isLinux (
+    home.file = mkIf pkgs.stdenv.hostPlatform.isLinux (
       optionalAttrs config.programs.chromium.enable {
         ".config/chromium/NativeMessagingHosts/brotab_mediator.json" = {
           force = true;

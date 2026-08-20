@@ -11,7 +11,7 @@ let
   inherit (lib.modules) mkIf mkMerge mkForce;
   inherit (lib.meta) getExe getExe';
   inherit (config.home) homeDirectory;
-  inherit (pkgs.stdenv) isLinux isDarwin;
+  inherit (pkgs.stdenv.hostPlatform) isLinux isDarwin;
   atuin' = getExe pkgs.atuin;
   cat' = getExe' pkgs.coreutils "cat";
   # Wrapper to ensure stale daemon socket is removed before starting (macOS)

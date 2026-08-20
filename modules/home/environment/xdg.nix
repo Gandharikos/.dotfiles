@@ -11,7 +11,7 @@
 }:
 let
   inherit (lib.modules) mkIf;
-  inherit (pkgs.stdenv) isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isLinux;
   inherit (config) my;
   home = config.home.homeDirectory;
   editorDesktopId = "${if (my.editor or "helix") == "helix" then "Helix" else my.editor}.desktop";

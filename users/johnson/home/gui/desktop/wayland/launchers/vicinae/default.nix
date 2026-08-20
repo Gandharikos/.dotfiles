@@ -112,7 +112,7 @@ in
       launcher = vicinaeToggle;
     };
 
-    home.file = mkIf pkgs.stdenv.isLinux (
+    home.file = mkIf pkgs.stdenv.hostPlatform.isLinux (
       optionalAttrs config.programs.chromium.enable {
         ".config/chromium/NativeMessagingHosts/com.vicinae.vicinae.json" = {
           force = true;

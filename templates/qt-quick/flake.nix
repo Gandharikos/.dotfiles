@@ -156,7 +156,7 @@
             pkgs.qt6.qtbase
             pkgs.qt6.qtdeclarative
           ]
-          ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.qt6.qtwayland ];
+          ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.qt6.qtwayland ];
           qtPluginPath = lib.makeSearchPath pkgs.qt6.qtbase.qtPluginPrefix qtRuntimePackages;
           qmlImportPath = lib.makeSearchPath pkgs.qt6.qtbase.qtQmlPrefix qtRuntimePackages;
         in
@@ -173,7 +173,7 @@
                 (generateCompileCommandsFor pkgs)
                 (runClangTidyFor pkgs)
               ]
-              ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.gdb ];
+              ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.gdb ];
 
             shellHook = ''
               ${preCommitCheck.shellHook}

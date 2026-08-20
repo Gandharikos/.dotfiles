@@ -65,11 +65,11 @@ in
     {
       assertions = [
         {
-          assertion = cfg.backend == "karabiner" -> pkgs.stdenv.isDarwin;
+          assertion = cfg.backend == "karabiner" -> pkgs.stdenv.hostPlatform.isDarwin;
           message = "Karabiner backend is only supported on Darwin (macOS).";
         }
         {
-          assertion = cfg.backend == "keyd" -> pkgs.stdenv.isLinux;
+          assertion = cfg.backend == "keyd" -> pkgs.stdenv.hostPlatform.isLinux;
           message = "Keyd backend is only supported on Linux.";
         }
       ];
