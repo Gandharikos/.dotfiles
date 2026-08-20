@@ -5,7 +5,6 @@
   lib,
   config,
   osConfig,
-  pkgs,
   ...
 }:
 let
@@ -41,11 +40,6 @@ in
         in
         {
           enable = true;
-          spotifyPackage =
-            if pkgs.stdenv.hostPlatform.isLinux then
-              pkgs.spotify.override { ffmpeg_4 = pkgs.ffmpeg; }
-            else
-              pkgs.spotify;
           # windowManagerPatch = isLinux;
           enabledCustomApps = with spicePkgs.apps; [
             lyricsPlus
