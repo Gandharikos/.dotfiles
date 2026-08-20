@@ -52,8 +52,8 @@ in
     # compositors when GDK_BACKEND is set (reports "GDK backend forced via env var,
     # Non-compatible display server, exposing settings only").
     # Unset it so the portal can auto-detect and work correctly under Niri.
-    systemd.user.services.xdg-desktop-portal-gnome.serviceConfig = mkIf isNiri {
-      UnsetEnvironment = [ "GDK_BACKEND" ];
+    systemd.user.services.xdg-desktop-portal-gnome = mkIf isNiri {
+      serviceConfig.UnsetEnvironment = [ "GDK_BACKEND" ];
     };
   };
 }

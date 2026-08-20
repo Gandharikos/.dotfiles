@@ -9,7 +9,7 @@
 let
   inherit (lib.dot) scanPaths;
   inherit (lib.options) mkEnableOption;
-  inherit (lib.modules) mkIf;
+  inherit (lib.modules) mkIf mkMerge;
   inherit (config.my.gui) desktop;
   cfg = desktop.niri;
 in
@@ -22,22 +22,26 @@ in
       readOnly = true;
     };
   };
-  config = mkIf cfg.enable {
-    programs.niri = {
-      enable = true;
-      package = pkgs.niri;
-      settings = {
-        gestures.hot-corners.enable = false;
-        xwayland-satellite = {
-          enable = true;
-          path = lib.getExe pkgs.xwayland-satellite;
-        };
-        prefer-no-csd = true;
-        hotkey-overlay = {
-          skip-at-startup = true;
-          hide-not-bound = false;
+  config = mkMerge [
+    {
+      programs.niri.package = pkgs.niri;
+    }
+    (mkIf cfg.enable {
+      programs.niri = {
+        enable = true;
+        settings = {
+          gestures.hot-corners.enable = false;
+          xwayland-satellite = {
+            enable = true;
+            path = lib.getExe pkgs.xwayland-satellite;
+          };
+          prefer-no-csd = true;
+          hotkey-overlay = {
+            skip-at-startup = true;
+            hide-not-bound = false;
+          };
         };
       };
-    };
-  };
+    })
+  ];
 }
