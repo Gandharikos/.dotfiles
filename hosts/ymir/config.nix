@@ -68,6 +68,7 @@
 
   home-manager.sharedModules = [
     {
+      my.gui.apps.chromium.vaapiDriver = "radeonsi";
       my.gui.desktop.idle.suspend.enable = false;
       programs.niri.settings.debug.render-drm-device = "/dev/dri/by-path/pci-0000:65:00.0-render";
     }

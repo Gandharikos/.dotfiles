@@ -6,17 +6,38 @@
   ...
 }:
 let
-  inherit (lib.options) mkEnableOption;
+  inherit (lib.options) mkEnableOption mkOption;
   inherit (lib.modules) mkIf;
   inherit (lib.lists) concatLists head;
   inherit (lib.meta) getExe';
   inherit (lib.strings) concatMapStrings enableFeature getVersion;
+  inherit (lib.types) nullOr str;
   inherit (lib.versions) splitVersion;
   inherit (lib.dot) uwsmAppArgs;
   cfg = config.my.gui.apps.chromium;
   enable = osConfig.dot.gui.enable && cfg.enable;
 
   features = en: features: "--${en}-features=" + (concatMapStrings (x: x + ",") features);
+
+  withVaapiDriver =
+    driver: override: args:
+    let
+      package = override args;
+    in
+    if driver == null then
+      package
+    else
+      pkgs.symlinkJoin {
+        name = "${package.name}-${driver}";
+        inherit (package) meta version;
+        paths = [ package ];
+        nativeBuildInputs = [ pkgs.makeWrapper ];
+        postBuild = ''
+          wrapProgram "$out/bin/chromium" \
+            --set LIBVA_DRIVER_NAME ${lib.escapeShellArg driver}
+          ln -sf chromium "$out/bin/chromium-browser"
+        '';
+      };
 
   extension =
     {
@@ -37,6 +58,12 @@ in
   options.my.gui.apps.chromium = {
     enable = mkEnableOption "Chromium" // {
       default = config.my.gui.browser.default == "chromium";
+    };
+
+    vaapiDriver = mkOption {
+      type = nullOr str;
+      default = null;
+      description = "VA-API driver to use for Chromium video decoding.";
     };
   };
 
@@ -195,7 +222,7 @@ in
 
       nativeMessagingHosts = [ pkgs.ff2mpv-rust ];
 
-      package = pkgs.ungoogled-chromium.override {
+      package = withVaapiDriver cfg.vaapiDriver pkgs.ungoogled-chromium.override {
         enableWideVine = true;
 
         # https://github.com/secureblue/hardened-chromium
@@ -282,7 +309,6 @@ in
               # see the performance section as to why these are added
               "AcceleratedVideoEncoder"
               "AcceleratedVideoDecodeLinuxGL"
-              "VaapiOnNvidiaGPUs"
               "WaylandLinuxDrmSyncobj"
 
               # Enable visited link database partitioning
