@@ -2,6 +2,7 @@
   lib,
   config,
   osConfig,
+  pkgs,
   ...
 }:
 let
@@ -31,6 +32,7 @@ in
 
     services.hypridle = {
       enable = true;
+      package = pkgs.hypridle;
 
       settings = {
         general = {

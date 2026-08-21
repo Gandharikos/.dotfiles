@@ -186,6 +186,27 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # hyprwm
+    hyprland.url = "github:hyprwm/hyprland";
+
+    hypridle = {
+      url = "github:hyprwm/hypridle";
+      inputs = {
+        hyprlang.follows = "hyprland/hyprlang";
+        hyprutils.follows = "hyprland/hyprutils";
+        nixpkgs.follows = "hyprland/nixpkgs";
+        systems.follows = "hyprland/systems";
+      };
+    };
+
+    hypr-dynamic-cursors = {
+      url = "github:VirtCode/hypr-dynamic-cursors";
+      inputs = {
+        hyprland.follows = "hyprland";
+        nixpkgs.follows = "hyprland/nixpkgs";
+      };
+    };
+
     # niri
     niri = {
       url = "github:sodiboo/niri-flake";

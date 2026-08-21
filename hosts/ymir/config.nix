@@ -32,7 +32,7 @@
       asus.enable = true;
     };
     gui = {
-      desktop.default = "niri";
+      desktop.default = "hyprland";
       game.enable = true;
     };
     virtual.enable = true;

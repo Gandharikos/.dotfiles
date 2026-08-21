@@ -20,15 +20,7 @@ let
     ;
   inherit (config.my.gui) desktop;
   cfg = desktop.hyprland;
-  dynamicCursors = pkgs.hyprlandPlugins.hypr-dynamic-cursors.overrideAttrs (_: {
-    version = "0-unstable-2026-07-21";
-    src = pkgs.fetchFromGitHub {
-      owner = "VirtCode";
-      repo = "hypr-dynamic-cursors";
-      rev = "f5ba36c7622098b53bf62ddb8ddf03b914abbdf8";
-      hash = "sha256-HKzJtEkafkWjTx35spDp6pm1oClN7vIipJ2wwU4ocNY=";
-    };
-  });
+  dynamicCursors = pkgs.hyprlandPlugins.hypr-dynamic-cursors;
   terminal = config.my.gui.terminal.exec;
   browser = config.my.gui.browser.exec;
   fileManager = config.my.gui.fileManager.exec;

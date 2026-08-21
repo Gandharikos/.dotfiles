@@ -20,7 +20,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.hyprland.enable = true;
+    programs.hyprland = {
+      enable = true;
+      package = pkgs.hyprland;
+      portalPackage = pkgs.xdg-desktop-portal-hyprland;
+    };
 
     programs.uwsm.waylandCompositors.hyprland = {
       prettyName = "Hyprland";
@@ -30,9 +34,7 @@ in
 
     xdg.portal = {
       enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-      ];
+      extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 
       # xdg-desktop-wlr (this section) is no longer needed, xdg-desktop-portal-hyprland
       # will (and should) override this one
