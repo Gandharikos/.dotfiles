@@ -21,11 +21,13 @@ in
   config = mkIf enable {
     programs.noctalia.settings.idle = {
       pre_action_fade_seconds = 5;
-      behavior_order = lib.optional idleCfg.keyboardBacklight.enable "keyboard-backlight" ++ [
-        "screen-off"
-        "lock"
-        "suspend"
-      ];
+      behavior_order =
+        lib.optional idleCfg.keyboardBacklight.enable "keyboard-backlight"
+        ++ [
+          "screen-off"
+          "lock"
+        ]
+        ++ lib.optional idleCfg.suspend.enable "suspend";
       behavior = {
         "screen-off" = {
           enabled = true;
@@ -40,6 +42,8 @@ in
           action = "lock";
           command = "noctalia:session lock";
         };
+      }
+      // lib.optionalAttrs idleCfg.suspend.enable {
         suspend = {
           enabled = true;
           timeout = idleCfg.timeout + 10;

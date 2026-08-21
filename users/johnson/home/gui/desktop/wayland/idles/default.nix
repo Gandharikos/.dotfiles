@@ -167,6 +167,10 @@ in
       };
     };
 
+    suspend.enable = mkEnableOption "automatic suspend after the idle timeout" // {
+      default = true;
+    };
+
     # Internal command options
     commands = {
       lock = mkOption {

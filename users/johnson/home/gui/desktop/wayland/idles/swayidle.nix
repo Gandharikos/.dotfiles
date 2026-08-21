@@ -65,7 +65,7 @@ in
           resumeCommand = screenOn;
         }
       ]
-      ++ [
+      ++ optionals cfg.suspend.enable [
         {
           timeout = timeout + 10;
           command = toString suspend;

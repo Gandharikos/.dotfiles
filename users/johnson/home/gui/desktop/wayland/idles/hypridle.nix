@@ -65,6 +65,8 @@ in
             on-timeout = screenOff;
             on-resume = screenOn;
           }
+        ]
+        ++ optionals cfg.suspend.enable [
           {
             timeout = timeout + 300;
             on-timeout = toString suspend;

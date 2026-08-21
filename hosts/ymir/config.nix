@@ -30,6 +30,7 @@
       printing.enable = true;
       fwupd.enable = true;
       asus.enable = true;
+      logind.powerKey = "ignore";
     };
     gui = {
       desktop.default = "hyprland";
@@ -67,6 +68,7 @@
 
   home-manager.sharedModules = [
     {
+      my.gui.desktop.idle.suspend.enable = false;
       programs.niri.settings.debug.render-drm-device = "/dev/dri/by-path/pci-0000:65:00.0-render";
     }
   ];
