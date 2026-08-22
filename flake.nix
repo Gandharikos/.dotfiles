@@ -257,14 +257,6 @@
       };
     };
 
-    codex-desktop-linux = {
-      url = "github:distsystem/codex-desktop-linux";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        flake-utils.inputs.systems.follows = "systems";
-      };
-    };
-
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs = {

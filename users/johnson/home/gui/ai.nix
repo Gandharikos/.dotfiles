@@ -18,7 +18,7 @@ in
     home.packages =
       with pkgs;
       optionals claudeEnabled [ claude-desktop ]
-      ++ optionals codexEnabled [ codex-desktop ]
+      ++ optionals codexEnabled [ llm-agents.chatgpt ]
       ++ optionals hermesEnabled [ hermes-desktop ];
 
     xdg.desktopEntries.hermes-desktop = mkIf hermesEnabled {

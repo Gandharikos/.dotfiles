@@ -141,27 +141,6 @@
         "type": "github"
       }
     },
-    "codex-desktop-linux": {
-      "inputs": {
-        "flake-utils": "flake-utils",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1783674400,
-        "narHash": "sha256-8x+JUx53LFBuR8wWiwQNMajUf9j8Svsm+g2nVgEngjg=",
-        "owner": "distsystem",
-        "repo": "codex-desktop-linux",
-        "rev": "5fc3961d284d2e9e62edd8512d0843196abe7374",
-        "type": "github"
-      },
-      "original": {
-        "owner": "distsystem",
-        "repo": "codex-desktop-linux",
-        "type": "github"
-      }
-    },
     "crane": {
       "locked": {
         "lastModified": 1785782307,
@@ -611,26 +590,6 @@
       }
     },
     "flake-utils": {
-      "inputs": {
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1731533236,
-        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
-    "flake-utils_2": {
       "inputs": {
         "systems": [
           "systems"
@@ -2215,7 +2174,6 @@
     "root": {
       "inputs": {
         "asus-dialpad-driver": "asus-dialpad-driver",
-        "codex-desktop-linux": "codex-desktop-linux",
         "darwin": "darwin",
         "dedsec-grub-theme": "dedsec-grub-theme",
         "devshell": "devshell",
@@ -2228,7 +2186,7 @@
         "flake-compat": "flake-compat_2",
         "flake-hosts": "flake-hosts",
         "flake-parts": "flake-parts",
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils",
         "hardware": "hardware",
         "helium-browser": "helium-browser",
         "hermes-agent": "hermes-agent",

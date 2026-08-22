@@ -28,7 +28,6 @@
         ;
 
       github-copilot-cli = llmAgentPackages.copilot-cli;
-      codex-desktop = inputs.codex-desktop-linux.packages.${system}.codex-desktop;
       hermes-desktop = inputs.hermes-agent.packages.${system}.desktop.override {
         pkgs = hermesDesktopPkgs;
       };
