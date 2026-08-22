@@ -37,7 +37,6 @@ in
       extraConfig = {
         general = {
           default-menu-cmd = "${getExe pkgs.fzf}";
-          enable-osc8 = true;
           pgp-provider = "gpg";
           unsafe-accounts-conf = true;
         };
