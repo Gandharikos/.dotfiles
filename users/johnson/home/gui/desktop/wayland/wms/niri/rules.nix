@@ -59,11 +59,11 @@ in
             matches = singleton { namespace = "^noctalia-backdrop$"; };
             place-within-backdrop = true;
           }
-          {
-            # Keep wallpaper rotation active while revealing the processed backdrop.
-            matches = singleton { namespace = "^noctalia-wallpaper$"; };
-            opacity = 0.0;
-          }
+          # {
+          #   # Keep wallpaper rotation active while revealing the processed backdrop.
+          #   matches = singleton { namespace = "^noctalia-wallpaper$"; };
+          #   opacity = 0.0;
+          # }
         ];
         window-rules = [
           {

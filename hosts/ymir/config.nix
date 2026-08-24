@@ -33,7 +33,7 @@
       logind.powerKey = "ignore";
     };
     gui = {
-      desktop.default = "hyprland";
+      desktop.default = "niri";
       game.enable = true;
     };
     virtual.enable = true;
