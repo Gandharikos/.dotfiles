@@ -126,13 +126,5 @@ in
 
       commands = sharedAiTools.antigravityCli.commands // sharedAiTools.antigravityCli.agents;
     };
-
-    home.activation.installAgyWakatime = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if [ -x "$(command -v agy)" ]; then
-        if [ ! -d "$HOME/.gemini/config/plugins/claude-code-wakatime" ]; then
-          run agy plugin install https://github.com/wakatime/claude-code-wakatime.git || true
-        fi
-      fi
-    '';
   };
 }
