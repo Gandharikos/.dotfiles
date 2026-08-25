@@ -21,6 +21,16 @@ return {
         "--header-insertion=iwyu",
       }
 
+      local on_init = clangd.on_init
+      clangd.on_init = function(client, initialize_result)
+        if on_init then
+          on_init(client, initialize_result)
+        end
+
+        -- Disable semantic highlighting before it can override Treesitter captures.
+        client.server_capabilities.semanticTokensProvider = nil
+      end
+
       local keys = clangd.keys or {}
       keys[#keys + 1] = {
         "s<space>",
