@@ -38,7 +38,6 @@ in
       uwsm
       wf-recorder
       wireplumber
-      wl-clip-persist
       wl-clipboard-rs
       wlr-randr
       zbar # Barcode/QR code reader

@@ -15,7 +15,6 @@ let
     relativeToConfig
     uwsmApp
     uwsmScript
-    withUWSM
     withUWSM'
     ;
   inherit (config.my.gui) desktop;
@@ -133,7 +132,6 @@ let
       satty = uwsmApp pkgs (getExe pkgs.satty) [ ];
     };
     startup = [
-      "${withUWSM pkgs "wl-clip-persist"} --clipboard regular"
       "${withUWSM' pkgs pkgs.wl-clipboard "wl-paste"} --type text --watch ${getExe pkgs.cliphist} store"
       "${withUWSM' pkgs pkgs.wl-clipboard "wl-paste"} --type image --watch ${getExe pkgs.cliphist} store"
     ];
