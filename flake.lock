@@ -1915,11 +1915,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783975753,
-        "narHash": "sha256-uarl/4D7RxvV98Q6gRjbHS8rPXGeTAwTYM/I5GE8BaE=",
+        "lastModified": 1787853292,
+        "narHash": "sha256-Vp8n2tkJExiyrBN4ewx4tO7tb/KU8mgh7j0bmf6ay94=",
         "owner": "Gandharikos",
         "repo": "nixporn",
-        "rev": "177aecf4898b6f9f160d731f5a18509d431107b5",
+        "rev": "d9cc63a47bd186c8d30a42886314a173a034f712",
         "type": "github"
       },
       "original": {
@@ -2634,11 +2634,11 @@
     },
     "wallpapers": {
       "locked": {
-        "lastModified": 1781352076,
-        "narHash": "sha256-e11HAOfE+vQiBN+FsyGuoLfa7P7BLR37U2Duv8EA9pk=",
+        "lastModified": 1787849927,
+        "narHash": "sha256-9iVGvrMy0VQB1f2BdSnQecRWGVgYVj2aLprKfMHV1QU=",
         "owner": "Gandharikos",
         "repo": "wallpapers",
-        "rev": "59958ac4210ec70aea4d9f710c1eef434e18ec43",
+        "rev": "bf7942308cc0a7ae9eeb7eefbf5bc029e2dae6f3",
         "type": "github"
       },
       "original": {
