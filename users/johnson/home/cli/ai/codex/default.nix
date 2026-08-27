@@ -18,17 +18,80 @@ let
     ;
   headroomEnabled = cfg.useHeadroom;
   mcpModuleEnabled = config.my.mcp.enable or false;
-  codexWithHookTrustBypass =
-    pkgs.runCommand "codex-hook-trust-bypass-${pkgs.codex.version}"
-      {
-        nativeBuildInputs = [ pkgs.makeWrapper ];
-        meta = pkgs.codex.meta;
-      }
-      ''
-        mkdir -p "$out/bin"
-        makeWrapper ${getExe pkgs.codex} "$out/bin/codex" \
-          --add-flags "--dangerously-bypass-hook-trust"
-      '';
+  devRoot = "${config.home.homeDirectory}/Dev";
+  projectRootMarkers = [
+    ".git"
+    ".jj"
+    ".hg"
+    ".sl"
+  ];
+  codexWithTrustedDevProjects = pkgs.writeShellApplication {
+    name = "codex";
+    runtimeInputs = [ pkgs.coreutils ];
+    meta = pkgs.codex.meta;
+    text = ''
+      launchDirectory="$PWD"
+      expectsDirectory=false
+
+      for argument in "$@"; do
+        if [[ "$expectsDirectory" == true ]]; then
+          launchDirectory="$argument"
+          expectsDirectory=false
+          continue
+        fi
+
+        case "$argument" in
+          -C | --cd)
+            expectsDirectory=true
+            ;;
+          -C?*)
+            launchDirectory="''${argument#-C}"
+            ;;
+          --cd=*)
+            launchDirectory="''${argument#--cd=}"
+            ;;
+        esac
+      done
+
+      launchDirectory="$(realpath -m -- "$launchDirectory")"
+      codexArguments=(--dangerously-bypass-hook-trust)
+
+      case "$launchDirectory" in
+        ${devRoot} | ${devRoot}/*)
+          projectRoot="$launchDirectory"
+          candidate="$launchDirectory"
+
+          while [[ "$candidate" == ${devRoot} || "$candidate" == ${devRoot}/* ]]; do
+            foundMarker=false
+            for marker in ${lib.escapeShellArgs projectRootMarkers}; do
+              if [[ -e "$candidate/$marker" ]]; then
+                projectRoot="$candidate"
+                foundMarker=true
+                break
+              fi
+            done
+
+            if [[ "$foundMarker" == true || "$candidate" == ${devRoot} ]]; then
+              break
+            fi
+            candidate="$(dirname -- "$candidate")"
+          done
+
+          escapedProjectRoot="''${projectRoot//\\/\\\\}"
+          escapedProjectRoot="''${escapedProjectRoot//\"/\\\"}"
+          trustOverride='projects={"'
+          trustOverride+="$escapedProjectRoot"
+          trustOverride+='"={trust_level="trusted"}}'
+          codexArguments+=(
+            -c
+            "$trustOverride"
+          )
+          ;;
+      esac
+
+      exec ${getExe pkgs.codex} "''${codexArguments[@]}" "$@"
+    '';
+  };
 in
 {
   options.my.codex = {
@@ -44,7 +107,7 @@ in
     programs.codex = {
       enable = true;
       enableMcpIntegration = mcpModuleEnabled;
-      package = codexWithHookTrustBypass;
+      package = codexWithTrustedDevProjects;
 
       settings = {
         features = {
@@ -139,12 +202,7 @@ in
 
         personality = "pragmatic";
 
-        project_root_markers = [
-          ".git"
-          ".jj"
-          ".hg"
-          ".sl"
-        ];
+        project_root_markers = projectRootMarkers;
 
         approval_policy = "on-request";
         sandbox_mode = "danger-full-access";
