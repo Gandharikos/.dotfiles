@@ -28,12 +28,6 @@ in
         avatar = lib.mkDefault osConfig.nixporn.avatar;
         wallpaper = lib.mkDefault inputs.wallpapers.catppuccin.anime-japan.path;
       };
-      home.pointerCursor = {
-        enable = true;
-        size = 24;
-        gtk.enable = true;
-        x11.enable = true;
-      };
     })
   ]);
 }
