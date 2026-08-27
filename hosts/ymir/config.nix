@@ -61,10 +61,7 @@
     };
   };
 
-  nixporn = {
-    colorscheme = "catppuccin";
-    colorschemes.catppuccin.flavor = "mocha";
-  };
+  nixporn.colorscheme = "rose-pine";
 
   home-manager.sharedModules = [
     {
