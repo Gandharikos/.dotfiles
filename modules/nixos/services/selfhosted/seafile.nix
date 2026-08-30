@@ -6,6 +6,8 @@
 }:
 let
   cfg = config.dot.selfhosted.services.seafile;
+  kanidm = config.dot.selfhosted.services.kanidm;
+  oidcEnabled = kanidm.enable;
   secretDir = "${cfg.dataDir}/secrets";
   envFile = "${cfg.dataDir}/seafile.env";
   dbEnvFile = "${cfg.dataDir}/mariadb.env";
@@ -13,7 +15,56 @@ let
   dbPasswordFile = "${secretDir}/db-password";
   adminPasswordFile = "${secretDir}/admin-password";
   jwtPrivateKeyFile = "${secretDir}/jwt-private-key";
+  oidcClientSecretFile = "${secretDir}/oidc-client-secret";
   seahubSettingsFile = "${cfg.dataDir}/shared/seafile/conf/seahub_settings.py";
+  writeOidcConfig = pkgs.writeShellScript "seafile-write-oidc-config" ''
+    set -eu
+
+    if [ ! -f ${seahubSettingsFile} ]; then
+      exit 1
+    fi
+
+    oidc_client_secret="$(${lib.getExe' pkgs.coreutils "cat"} ${oidcClientSecretFile})"
+    ${lib.getExe' pkgs.python3 "python"} - <<'PY'
+    from pathlib import Path
+
+    path = Path("${seahubSettingsFile}")
+    text = path.read_text()
+    start = "# BEGIN dot.selfhosted seafile oauth"
+    end = "# END dot.selfhosted seafile oauth"
+    while start in text and end in text:
+        before, rest = text.split(start, 1)
+        _, after = rest.split(end, 1)
+        text = before.rstrip() + "\n\n" + after.lstrip()
+    path.write_text(text.rstrip() + "\n")
+    PY
+
+    ${lib.getExe' pkgs.coreutils "cat"} >> ${seahubSettingsFile} <<EOF
+
+    # BEGIN dot.selfhosted seafile oauth
+    ENABLE_OAUTH = True
+    OAUTH_CLIENT_ID = "seafile"
+    OAUTH_CLIENT_SECRET = "$oidc_client_secret"
+    OAUTH_REDIRECT_URL = "https://${cfg.hostName}/oauth/callback/"
+    OAUTH_PROVIDER = "kanidm"
+    OAUTH_PROVIDER_DOMAIN = "kanidm"
+    OAUTH_AUTHORIZATION_URL = "https://${kanidm.hostName}/ui/oauth2"
+    OAUTH_TOKEN_URL = "https://${kanidm.hostName}/oauth2/token"
+    OAUTH_USER_INFO_URL = "https://${kanidm.hostName}/oauth2/openid/seafile/userinfo"
+    OAUTH_SCOPE = ["openid", "email", "profile"]
+    OAUTH_ATTRIBUTE_MAP = {
+        "sub": (True, "uid"),
+        "email": (True, "email"),
+        "name": (False, "name"),
+    }
+    OAUTH_CREATE_UNKNOWN_USER = False
+    OAUTH_ACTIVATE_USER_AFTER_CREATION = True
+    # END dot.selfhosted seafile oauth
+    EOF
+
+    ${lib.getExe' pkgs.coreutils "chown"} root:root ${seahubSettingsFile}
+    ${lib.getExe' pkgs.coreutils "chmod"} 0600 ${seahubSettingsFile}
+  '';
   mysqlUid = "999";
   mysqlGid = "999";
   inherit (lib.modules) mkIf;
@@ -70,6 +121,24 @@ in
     };
 
   config = mkIf cfg.enable {
+    services.kanidm.provision = mkIf oidcEnabled {
+      groups.seafile-users.members = [ "johnson" ];
+      persons.johnson.groups = [ "seafile-users" ];
+      systems.oauth2.seafile = {
+        displayName = "Seafile";
+        originLanding = "https://${cfg.hostName}/accounts/login/";
+        originUrl = "https://${cfg.hostName}/oauth/callback/";
+        basicSecretFile = oidcClientSecretFile;
+        allowInsecureClientDisablePkce = true;
+        preferShortUsername = true;
+        scopeMaps.seafile-users = [
+          "openid"
+          "email"
+          "profile"
+        ];
+      };
+    };
+
     dot = {
       virtual.podman.enable = true;
       selfhosted = {
@@ -91,7 +160,7 @@ in
       ${cfg.dataDir}.d = {
         user = "root";
         group = "root";
-        mode = "0750";
+        mode = if oidcEnabled then "0751" else "0750";
       };
       "${cfg.dataDir}/mysql".d = {
         user = mysqlUid;
@@ -102,6 +171,11 @@ in
         user = "root";
         group = "root";
         mode = "0750";
+      };
+      ${secretDir}.d = {
+        user = "root";
+        group = if oidcEnabled then "kanidm" else "root";
+        mode = if oidcEnabled then "0750" else "0700";
       };
     };
 
@@ -140,7 +214,8 @@ in
         extraOptions = [
           "--add-host=host.containers.internal:host-gateway"
           "--security-opt=no-new-privileges"
-        ];
+        ]
+        ++ lib.optional oidcEnabled "--add-host=${kanidm.hostName}:host-gateway";
       };
     };
 
@@ -155,12 +230,18 @@ in
           "podman-seafile.service"
           "podman-seafile-db.service"
         ];
+        after = lib.optional oidcEnabled "seafile-oidc-secret.service";
+        requires = lib.optional oidcEnabled "seafile-oidc-secret.service";
         serviceConfig = {
           Type = "oneshot";
         };
         script = ''
-          ${lib.getExe' pkgs.coreutils "install"} -d -m 0750 -o root -g root ${cfg.dataDir}
-          ${lib.getExe' pkgs.coreutils "install"} -d -m 0700 -o root -g root ${secretDir}
+          ${lib.getExe' pkgs.coreutils "install"} -d -m ${
+            if oidcEnabled then "0751" else "0750"
+          } -o root -g root ${cfg.dataDir}
+          ${lib.getExe' pkgs.coreutils "install"} -d -m ${
+            if oidcEnabled then "0750" else "0700"
+          } -o root -g ${if oidcEnabled then "kanidm" else "root"} ${secretDir}
           ${lib.getExe' pkgs.coreutils "install"} -d -m 0700 -o ${mysqlUid} -g ${mysqlGid} ${cfg.dataDir}/mysql
           ${lib.getExe' pkgs.coreutils "install"} -d -m 0750 -o root -g root ${cfg.dataDir}/shared
           ${lib.getExe' pkgs.coreutils "chown"} -R ${mysqlUid}:${mysqlGid} ${cfg.dataDir}/mysql
@@ -223,8 +304,12 @@ in
           PY
           fi
 
-          ${lib.getExe' pkgs.coreutils "chown"} root:root ${secretDir}/*
-          ${lib.getExe' pkgs.coreutils "chmod"} 0600 ${secretDir}/*
+          ${lib.getExe' pkgs.coreutils "chown"} root:root ${dbRootPasswordFile} ${dbPasswordFile} ${adminPasswordFile} ${jwtPrivateKeyFile}
+          ${lib.getExe' pkgs.coreutils "chmod"} 0600 ${dbRootPasswordFile} ${dbPasswordFile} ${adminPasswordFile} ${jwtPrivateKeyFile}
+          ${lib.optionalString oidcEnabled ''
+            ${lib.getExe' pkgs.coreutils "chown"} root:kanidm ${oidcClientSecretFile}
+            ${lib.getExe' pkgs.coreutils "chmod"} 0440 ${oidcClientSecretFile}
+          ''}
 
           db_root_password="$(${lib.getExe' pkgs.coreutils "cat"} ${dbRootPasswordFile})"
           db_password="$(${lib.getExe' pkgs.coreutils "cat"} ${dbPasswordFile})"
@@ -270,6 +355,71 @@ in
 
           ${lib.getExe' pkgs.coreutils "chown"} root:root ${envFile} ${dbEnvFile}
           ${lib.getExe' pkgs.coreutils "chmod"} 0600 ${envFile} ${dbEnvFile}
+
+          ${lib.optionalString oidcEnabled ''
+            if [ -f ${seahubSettingsFile} ]; then
+              ${writeOidcConfig}
+            fi
+          ''}
+        '';
+      };
+
+      seafile-oidc-secret = mkIf oidcEnabled {
+        description = "Generate Seafile Kanidm OIDC secret";
+        before = [
+          "kanidm.service"
+          "seafile-env.service"
+        ];
+        requiredBy = [
+          "kanidm.service"
+          "seafile-env.service"
+        ];
+        serviceConfig.Type = "oneshot";
+        script = ''
+          ${lib.getExe' pkgs.coreutils "install"} -d -m 0750 -o root -g kanidm ${secretDir}
+
+          if [ ! -s ${oidcClientSecretFile} ]; then
+            ${lib.getExe' pkgs.openssl "openssl"} rand -hex 48 > ${oidcClientSecretFile}
+          fi
+
+          ${lib.getExe' pkgs.coreutils "chown"} root:kanidm ${oidcClientSecretFile}
+          ${lib.getExe' pkgs.coreutils "chmod"} 0440 ${oidcClientSecretFile}
+        '';
+      };
+
+      seafile-oidc-config = mkIf oidcEnabled {
+        description = "Ensure Seafile Kanidm OIDC configuration exists";
+        wantedBy = [ "multi-user.target" ];
+        after = [
+          "podman-seafile.service"
+          "seafile-oidc-secret.service"
+        ];
+        requires = [
+          "podman-seafile.service"
+          "seafile-oidc-secret.service"
+        ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
+        script = ''
+          count=0
+          while [ ! -f ${seahubSettingsFile} ]; do
+            if [ "$count" -eq 60 ]; then
+              echo "Seafile did not create seahub_settings.py" >&2
+              exit 1
+            fi
+            sleep 1
+            count=$((count + 1))
+          done
+
+          before="$(${lib.getExe' pkgs.coreutils "sha256sum"} ${seahubSettingsFile})"
+          ${writeOidcConfig}
+          after="$(${lib.getExe' pkgs.coreutils "sha256sum"} ${seahubSettingsFile})"
+
+          if [ "$before" != "$after" ]; then
+            ${lib.getExe config.virtualisation.podman.package} restart seafile
+          fi
         '';
       };
 

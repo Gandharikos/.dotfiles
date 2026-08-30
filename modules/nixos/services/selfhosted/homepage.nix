@@ -117,10 +117,10 @@ in
               };
             }
             {
-              Files = {
-                href = serviceUrl selfhosted.services.filebrowser;
-                description = "File browser";
-                icon = "filebrowser.svg";
+              Copyparty = {
+                href = serviceUrl selfhosted.services.copyparty;
+                description = "Private file transfer";
+                icon = "copyparty.svg";
               };
             }
           ];

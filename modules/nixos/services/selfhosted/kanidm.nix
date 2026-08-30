@@ -36,11 +36,17 @@ let
     ++ lib.optionals (services.fava.enable && services.kanidm.enable) [
       "fava-oauth2-secrets.service"
     ]
-    ++ lib.optionals (services.filebrowser.enable && services.kanidm.enable) [
-      "filebrowser-oauth2-secrets.service"
+    ++ lib.optionals (services.copyparty.enable && services.kanidm.enable) [
+      "copyparty-oauth2-secrets.service"
     ]
     ++ lib.optionals (services.immich.enable && services.kanidm.enable) [
       "immich-oauth2-secrets.service"
+    ]
+    ++ lib.optionals (services.pingvinShare.enable && services.kanidm.enable) [
+      "pingvin-share-oidc-secret.service"
+    ]
+    ++ lib.optionals (services.seafile.enable && services.kanidm.enable) [
+      "seafile-oidc-secret.service"
     ];
   oauthConsumerServices =
     lib.optionals (services.code-server.enable && services.kanidm.enable) [
@@ -58,11 +64,17 @@ let
     ++ lib.optionals (services.fava.enable && services.kanidm.enable) [
       "oauth2-proxy-fava.service"
     ]
-    ++ lib.optionals (services.filebrowser.enable && services.kanidm.enable) [
-      "oauth2-proxy-filebrowser.service"
+    ++ lib.optionals (services.copyparty.enable && services.kanidm.enable) [
+      "oauth2-proxy-copyparty.service"
     ]
     ++ lib.optionals (services.immich.enable && services.kanidm.enable) [
       "immich-server.service"
+    ]
+    ++ lib.optionals (services.pingvinShare.enable && services.kanidm.enable) [
+      "podman-pingvin-share.service"
+    ]
+    ++ lib.optionals (services.seafile.enable && services.kanidm.enable) [
+      "podman-seafile.service"
     ];
   inherit (lib) getExe optionalString;
   inherit (lib.modules) mkIf;
@@ -137,7 +149,7 @@ in
     };
 
     services.kanidm = {
-      package = pkgs.kanidmWithSecretProvisioning_1_10;
+      package = pkgs.kanidmWithSecretProvisioning_1_11;
       server = {
         enable = true;
         settings = {

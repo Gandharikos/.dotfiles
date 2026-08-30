@@ -22,7 +22,7 @@ in
 
     virtualisation = {
       # Registries to search for images on `podman pull`
-      containers.registries.search = [
+      containers.registries.settings.registries.search.registries = [
         "docker.io"
         "quay.io"
         "ghcr.io"

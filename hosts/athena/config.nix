@@ -141,10 +141,11 @@ in
       services.code-server.enable = true;
       services.calibre.enable = true;
       services.seafile.enable = true;
+      services.pingvinShare.enable = true;
       services.actual.enable = true;
       services.dawarich.enable = true;
       services.fava.enable = true;
-      services.filebrowser.enable = true;
+      services.copyparty.enable = true;
       services.homepage.enable = true;
       services.paperless.enable = true;
       services.immich.enable = true;
