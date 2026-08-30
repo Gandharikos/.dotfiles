@@ -13,6 +13,11 @@ The `ghcr.io/smp46/pingvin-share-x:v1.22.1` OCI image runs with Podman on Athena
 is disabled. The host Caddy routes `/api/*` to the API on `127.0.0.1:8089` and all other requests to
 the frontend on `127.0.0.1:3005`. Neither application port is exposed publicly.
 
+The Cloudflare A and AAAA records for `share.huwenqiang.dev` must remain **DNS-only**. Pingvin waits
+until it has received a complete upload chunk before responding, so Cloudflare's fixed proxy timeout
+can terminate slow uploads before a chunk arrives. Public traffic therefore connects directly to the
+host Caddy; only ports 80 and 443 are exposed, while both Pingvin ports remain bound to localhost.
+
 Persistent state is stored below `/var/lib/pingvin-share-x`:
 
 - `data/` contains the SQLite database and uploaded files.
@@ -70,11 +75,18 @@ doubt.
 
 ## Limits and storage safety
 
-The maximum total share size is 50,000,000,000 bytes (50 GB). Pingvin uploads in 10 MB chunks and
-checks free space before appending each chunk. There is no separate per-file cap below the total
-share limit. ZIP compression is disabled because client video files are already compressed; ZIP
-downloads remain available without wasting CPU on recompression. Host Caddy has no configured
-request-body limit and proxies streaming responses and WebSocket upgrades by default.
+The maximum total share size is 50,000,000,000 bytes (50 GB). Pingvin uploads in 1 MB chunks and
+checks free space before appending each chunk. The smaller-than-default chunk size keeps each
+request within the application server's request timeout on slow uplinks. There is no separate
+per-file cap below the total share limit. ZIP compression is disabled because client video files are
+already compressed; ZIP downloads remain available without wasting CPU on recompression. Host Caddy
+has no configured request-body limit and proxies streaming responses and WebSocket upgrades by
+default.
+
+Do not enable the Cloudflare proxy (orange cloud) for this hostname. If uploads repeatedly fail at
+the first chunk, verify that public DNS resolves to Athena's origin addresses rather than Cloudflare
+anycast addresses, then inspect `/var/log/caddy/access-share.huwenqiang.dev.log` for requests ending
+with status `0` after approximately 125 seconds.
 
 Caddy has no access to the upload directory and never serves it as static content. Files are only
 read through Pingvin's share authorization logic. Persistent directories use mode `0750`, and the

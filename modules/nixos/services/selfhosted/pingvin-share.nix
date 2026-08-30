@@ -164,6 +164,7 @@ in
       podman-pingvin-share = {
         after = [ "pingvin-share-storage.service" ];
         requires = [ "pingvin-share-storage.service" ];
+        partOf = [ "pingvin-share-storage.service" ];
         serviceConfig = {
           Restart = lib.mkForce "always";
           RestartSec = "10s";
@@ -176,7 +177,10 @@ in
         requiredBy = [ "podman-pingvin-share.service" ];
         after = lib.optional oidcEnabled "pingvin-share-oidc-secret.service";
         requires = lib.optional oidcEnabled "pingvin-share-oidc-secret.service";
-        serviceConfig.Type = "oneshot";
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
         script = ''
           ${lib.getExe' pkgs.coreutils "install"} -d -m 0750 -o ${uid} -g ${gid} ${dataDir}/data ${dataDir}/images
           ${lib.getExe' pkgs.coreutils "install"} -d -m ${
@@ -206,7 +210,7 @@ in
             shareIdLength: "12"
             maxSize: "50000000000"
             zipCompressionLevel: "0"
-            chunkSize: "10000000"
+            chunkSize: "1000000"
             autoOpenShareModal: "false"
             reverseShareSimpleOnly: "false"
             allowAdminAccessAllShares: "true"
