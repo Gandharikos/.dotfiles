@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 let
@@ -11,8 +12,9 @@ let
   autoStart = config.my.mux.autoStart && config.my.mux.default == "tmux";
   inherit (lib.options) mkEnableOption mkOption;
   inherit (lib.types) enum;
+  inherit (lib.meta) getExe;
   inherit (lib.modules) mkIf mkBefore;
-  shell = "${config.home.profileDirectory}/bin/${config.my.shell}";
+  shell = getExe (builtins.getAttr config.my.shell pkgs);
 in
 {
   imports = lib.dot.scanPaths ./.;
@@ -51,6 +53,31 @@ in
              and test "$TERM_PROGRAM" != "vscode"
             tmux attach-session; or tmux
           end
+        '';
+      };
+      nushell = mkIf autoStart {
+        extraConfig = ''
+          if (
+            $nu.is-interactive
+            and (($env.TMUX? | default "") | is-empty)
+            and (($env.SSH_TTY? | default "") | is-empty)
+            and (($env.SSH_CONNECTION? | default "") | is-empty)
+            and (($env.SSH_CLIENT? | default "") | is-empty)
+            and (($env.WSL_DISTRO_NAME? | default "") | is-empty)
+            and (($env.INSIDE_EMACS? | default "") | is-empty)
+            and (($env.EMACS? | default "") | is-empty)
+            and (($env.VIM? | default "") | is-empty)
+            and (($env.NVIM? | default "") | is-empty)
+            and (($env.INSIDE_PYCHARM? | default "") | is-empty)
+            and (($env.ZED_TERMINAL? | default "") | is-empty)
+            and (($env.ZELLIJ_SESSION_NAME? | default "") | is-empty)
+            and (($env.TERM_PROGRAM? | default "") != "vscode")
+          ) {
+            tmux attach-session
+            if $env.LAST_EXIT_CODE != 0 {
+              tmux
+            }
+          }
         '';
       };
       zsh =

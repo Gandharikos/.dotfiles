@@ -31,6 +31,20 @@ let
       fastfetch
     end
   '';
+  nushellGreeting = ''
+    if (
+      $nu.is-interactive
+      and (not (($env.DISPLAY? | default "") | is-empty))
+      and (
+        ($env.XDG_VTNR? | default "") == "1"
+        or (not (($env.TMUX? | default "") | is-empty))
+        or (not (($env.ZELLIJ? | default "") | is-empty))
+        or (not (($env.ZELLIJ_SESSION_NAME? | default "") | is-empty))
+      )
+    ) {
+      fastfetch
+    }
+  '';
 in
 {
   options.my.fastfetch = {
@@ -39,8 +53,8 @@ in
   };
 
   config = mkIf cfg.enable {
-    # programs.nushell = {inherit shellAliases;};
     programs = {
+      nushell.extraConfig = mkIf cfg.startOnLogin nushellGreeting;
       fish.functions.fish_greeting = mkIf cfg.startOnLogin {
         body = fishGreeting;
       };

@@ -6,7 +6,7 @@
 }:
 let
   multitask = lib.getExe' pkgs.dot.multitask "multitask.wasm";
-  shell = "${config.home.profileDirectory}/bin/${config.my.shell}";
+  shell = lib.getExe (builtins.getAttr config.my.shell pkgs);
 in
 {
   programs.zellij.settings = {

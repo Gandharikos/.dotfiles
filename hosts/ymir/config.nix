@@ -9,6 +9,7 @@
 
   dot = {
     primaryUser = "johnson";
+    users.johnson.shell = "nushell";
     security = {
       fixWebcam = true;
     };

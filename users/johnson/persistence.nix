@@ -157,6 +157,9 @@ in
       (mkIf my.navi.enable [
         ".local/share/navi"
       ])
+      (mkIf (my.shell == "nushell") [
+        ".local/state/nushell"
+      ])
       (mkIf my.opencode.enable [
         ".config/opencode"
       ])

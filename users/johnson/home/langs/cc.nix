@@ -131,6 +131,16 @@ in
       cpr = "cpprun";
     };
 
+    programs.nushell.shellAliases = {
+      cc = "cpp23";
+      cxx = "cpp23";
+      cxx17 = "cpp17";
+      cxx20 = "cpp20";
+      cxx23 = "cpp23";
+      cxxdbg = "cppdbg";
+      cpr = "cpprun";
+    };
+
     xdg.configFile."clangd/config.yaml".text = ''
       If:
         PathMatch: '.*\.(cc|cpp|cxx|c\+\+|hpp|hh|hxx|h\+\+)$'

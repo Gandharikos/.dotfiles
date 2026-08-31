@@ -22,6 +22,8 @@ in
     # useful in bash/zsh prompt, not in nushell.
     programs.eza = {
       enable = true;
+      # Keep Nushell's structured `ls`; use `eza`, `l`, or `tree` explicitly.
+      enableNushellIntegration = false;
       git = true;
       icons = "auto";
       extraOptions = [

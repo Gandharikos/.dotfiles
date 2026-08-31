@@ -51,6 +51,14 @@ in
           set -gx FORGEJO_TOKEN (${cat'} ${forgejoSecretPath})
         end
       '';
+      nushell.extraEnv = ''
+        if ('${githubSecretPath}' | path exists) {
+          $env.GITHUB_TOKEN = (open --raw '${githubSecretPath}' | str trim)
+        }
+        if ('${forgejoSecretPath}' | path exists) {
+          $env.FORGEJO_TOKEN = (open --raw '${forgejoSecretPath}' | str trim)
+        }
+      '';
       zsh.initContent = tokenExportShell;
       # Use riff instead of delta
       riff = mkIf (cfg.diff == "riff") {

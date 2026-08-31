@@ -20,9 +20,9 @@ with osConfig.dot.keyboard.keys;
   };
 
   config = mkIf cfg.enable {
-    # programs.nushell.shellAliases = shellAliases;
     programs.lazygit = {
       enable = true;
+      enableNushellIntegration = true;
       settings = {
         gui = {
           authorColors = { };

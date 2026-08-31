@@ -25,7 +25,7 @@ with osConfig.dot.keyboard.keys;
       enableBashIntegration = true;
       enableZshIntegration = true;
       enableFishIntegration = true;
-      # enableNushellIntegration = true;
+      enableNushellIntegration = true;
       settings = {
         mgr = {
           sort_by = "natural";

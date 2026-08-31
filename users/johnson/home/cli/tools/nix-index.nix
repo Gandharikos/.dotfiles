@@ -26,6 +26,7 @@ in
 
         enableBashIntegration = true;
         enableFishIntegration = true;
+        enableNushellIntegration = true;
         enableZshIntegration = true;
 
         # link nix-inde database to ~/.cache/nix-index

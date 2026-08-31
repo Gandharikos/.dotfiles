@@ -14,6 +14,7 @@ in
     shells = with pkgs; [
       bash
       fish
+      nushell
       zsh
     ];
   };

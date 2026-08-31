@@ -62,7 +62,8 @@ in
         # Need to specify the theme or else glow will not output color
         tool = {
           inherit (config.my) editor pager;
-          inherit (config.my) shell;
+          # zk command aliases use POSIX syntax and cannot receive `nu -c` arguments.
+          shell = if config.my.shell == "nushell" then lib.getExe pkgs.bash else config.my.shell;
           fzf-preview = "${lib.getExe pkgs.glow} --style ${config.home.sessionVariables.GLAMOUR_STYLE} {-1}";
         };
 
