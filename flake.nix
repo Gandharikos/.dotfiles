@@ -181,6 +181,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    tailcat = {
+      url = "github:tailscale/tailcat";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nixporn = {
       url = "github:Gandharikos/nixporn";
       inputs.nixpkgs.follows = "nixpkgs";

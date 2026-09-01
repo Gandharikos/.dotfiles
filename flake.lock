@@ -2227,6 +2227,7 @@
         "sops": "sops",
         "spicetify-nix": "spicetify-nix",
         "systems": "systems_6",
+        "tailcat": "tailcat",
         "treefmt": "treefmt",
         "vicinae": "vicinae",
         "vicinae-extensions": "vicinae-extensions",
@@ -2446,6 +2447,29 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tailcat": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788276559,
+        "narHash": "sha256-/mFntVDxcFOzXbAgfE4H1dN0tQa2xN9j4/B23HY3oqQ=",
+        "owner": "tailscale",
+        "repo": "tailcat",
+        "rev": "4a25a91e0337252a4d16e097b03cf3cbb92c20cd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tailscale",
+        "repo": "tailcat",
         "type": "github"
       }
     },

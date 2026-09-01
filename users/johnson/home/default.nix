@@ -164,6 +164,8 @@ in
 
     starship.enable = true;
 
+    tailcat.enable = !isMinimal;
+
     tealdeer.enable = !isMinimal;
 
     topgrade.enable = !isMinimal;
