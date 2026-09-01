@@ -50,6 +50,8 @@ in
       silent = true;
     };
 
+    duckdb.enable = !isMinimal;
+
     eza.enable = true;
 
     fastfetch = {
