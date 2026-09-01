@@ -42,30 +42,30 @@ with osConfig.dot.keyboard.keys;
         opener = {
           edit = [
             {
-              run = ''if [ "$#" -gt 0 ]; then $EDITOR "$@"; else $EDITOR "$0"; fi'';
+              run = "$EDITOR %s";
               block = true;
             }
             {
-              run = ''code "$@"'';
+              run = "code %s";
               orphan = true;
             }
           ];
           play = [
-            { run = ''mpv "$@"''; }
-            { run = ''iina "$@"''; }
+            { run = "mpv %s"; }
+            { run = "iina %s"; }
             {
-              run = ''mediainfo \"$1\"; echo \"Press enter to exit\"; read'';
+              run = "mediainfo %s1; echo 'Press enter to exit'; read _";
               block = true;
               desc = "Show media info";
             }
           ];
           archive = [
             {
-              run = ''unar "$1"'';
+              run = "unar %s1";
               desc = "Extract here";
             }
             {
-              run = ''/Applications/MacZip.app/Contents/MacOS/MacZip "$1"'';
+              run = "/Applications/MacZip.app/Contents/MacOS/MacZip %s1";
               orphan = true;
               desc = "MacZip";
             }
