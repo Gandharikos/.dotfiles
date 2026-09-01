@@ -104,7 +104,7 @@ let
           runuser -u postgres -- pg_dumpall \
             | zstd -T0 -19 -o "$workdir/postgresql/all.sql.zst" > /dev/null
           runuser -u postgres -- pg_dumpall --globals-only | tee "$workdir/postgresql/globals.sql" > /dev/null
-          runuser -u postgres -- psql -Atqc "SELECT datname FROM pg_database WHERE datname IN ('miniflux', 'vaultwarden', 'wakapi', 'linkwarden', 'roundcube', 'paperless', 'dawarich', 'immich')" \
+          runuser -u postgres -- psql -Atqc "SELECT datname FROM pg_database WHERE datname IN ('miniflux', 'vaultwarden', 'wakapi', 'linkwarden', 'roundcube', 'paperless', 'dawarich', 'immich', 'outline')" \
             | while IFS= read -r database; do
                 [ -n "$database" ] || continue
                 runuser -u postgres -- pg_dump --format=custom "$database" \
@@ -112,7 +112,7 @@ let
               done
         fi
 
-        for directory in actual caddy dawarich fava filebrowser forgejo gatus immich kanidm linkwarden mailserver miniflux ntfy-sh paperless roundcube vaultwarden wakapi; do
+        for directory in actual caddy dawarich fava filebrowser forgejo gatus immich kanidm linkwarden mailserver miniflux ntfy-sh outline paperless roundcube vaultwarden wakapi; do
           if [ -e "/var/lib/$directory" ]; then
             tar -C /var/lib -cpf "$workdir/var/lib/$directory.tar" "$directory"
           fi

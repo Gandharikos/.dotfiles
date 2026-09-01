@@ -142,6 +142,7 @@ in
       services.calibre.enable = true;
       services.seafile.enable = true;
       services.pingvinShare.enable = true;
+      services.outline.enable = true;
       services.actual.enable = true;
       services.dawarich.enable = true;
       services.fava.enable = true;
