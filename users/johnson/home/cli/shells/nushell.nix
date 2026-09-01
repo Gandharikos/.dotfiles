@@ -26,6 +26,7 @@ in
         gstat
         query
         polars
+        skim
       ];
       configFile.source = lib.dot.relativeToConfig "nushell/config.nu";
       settings = {
