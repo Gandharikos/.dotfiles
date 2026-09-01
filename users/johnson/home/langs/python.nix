@@ -21,6 +21,7 @@ in
       (python3.withPackages (
         ps: with ps; [
           jupyterlab
+          marimo
           numpy
           pandas
           matplotlib
