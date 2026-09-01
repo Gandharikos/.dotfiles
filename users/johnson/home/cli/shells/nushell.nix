@@ -21,6 +21,12 @@ in
   config = mkIf cfg.enable {
     programs.nushell = {
       enable = true;
+      plugins = with pkgs.nushellPlugins; [
+        formats
+        gstat
+        query
+        polars
+      ];
       configFile.source = lib.dot.relativeToConfig "nushell/config.nu";
       settings = {
         show_banner = false;
@@ -38,6 +44,8 @@ in
           isolation = false;
           path = "${config.xdg.stateHome}/nushell/history.sqlite3";
         };
+        rm.always_trash = true;
+        table.mode = "compact";
         completions = {
           algorithm = "fuzzy";
           case_sensitive = false;
@@ -48,6 +56,8 @@ in
             max_results = 200;
           };
         };
+        # Colors
+        highlight_resolved_externals = lib.hm.nushell.mkNushellInline "not (sys host | get kernel_version | str contains \"microsoft-standard-WSL2\")";
       };
       environmentVariables = {
         PROMPT_INDICATOR = "";
