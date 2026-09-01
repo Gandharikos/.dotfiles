@@ -24,6 +24,9 @@ in
           marimo
           numpy
           pandas
+          polars
+          pyarrow
+          duckdb
           matplotlib
           scikit-learn
           sympy
