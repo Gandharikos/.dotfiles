@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   self,
@@ -16,6 +17,26 @@ in
     })
     (import ./athena-volume.nix { })
   ];
+
+  # Keep Nix evaluation from exhausting the small host during exceptional
+  # workloads. zram remains the preferred swap device.
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 8192;
+      priority = -3;
+    }
+  ];
+
+  # Athena is managed exclusively through flakes. Keeping every flake input in
+  # the legacy NIX_PATH pulled multi-gigabyte desktop assets into this server's
+  # system closure.
+  nix = {
+    nixPath = lib.mkForce [ ];
+    registry = lib.mkForce {
+      nixpkgs.flake = inputs.nixpkgs;
+    };
+  };
 
   networking.domain = "huwenqiang.dev";
 
@@ -109,8 +130,9 @@ in
     persistence.enable = false;
     users.johnson.home.my = {
       atuin.enable = lib.mkForce false;
-      fastfetch.startOnLogin = lib.mkForce false;
+      fastfetch.enable = lib.mkForce false;
       git.enable = lib.mkForce false;
+      neovim.enable = lib.mkForce false;
     };
     selfhosted = {
       enable = true;

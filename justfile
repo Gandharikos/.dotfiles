@@ -56,13 +56,16 @@ deploy host action="switch" *args:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    build_host="${BUILD_HOST:-{{ host }}}"
+    build_host_args=()
+    if [[ -n "${BUILD_HOST:-}" ]]; then
+        build_host_args=(--build-host "$BUILD_HOST")
+    fi
     before="$(ssh -q {{ host }} 'readlink -e /run/current-system || true')"
 
     nixos-rebuild "{{ action }}" \
         --flake {{ flake }}#{{ host }} \
         --target-host {{ host }} \
-        --build-host "$build_host" \
+        "${build_host_args[@]}" \
         --use-substitutes \
         --use-remote-sudo \
         --log-format internal-json \
