@@ -42,7 +42,7 @@ with osConfig.dot.keyboard.keys;
         opener = {
           edit = [
             {
-              run = ''$EDITOR "$@"'';
+              run = ''if [ "$#" -gt 0 ]; then $EDITOR "$@"; else $EDITOR "$0"; fi'';
               block = true;
             }
             {
