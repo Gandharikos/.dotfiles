@@ -111,27 +111,7 @@ in
         cpprun
       ];
 
-    programs.fish.shellAbbrs = {
-      cc = "cpp23";
-      cxx = "cpp23";
-      cxx17 = "cpp17";
-      cxx20 = "cpp20";
-      cxx23 = "cpp23";
-      cxxdbg = "cppdbg";
-      cpr = "cpprun";
-    };
-
-    programs.zsh.zsh-abbr.abbreviations = {
-      cc = "cpp23";
-      cxx = "cpp23";
-      cxx17 = "cpp17";
-      cxx20 = "cpp20";
-      cxx23 = "cpp23";
-      cxxdbg = "cppdbg";
-      cpr = "cpprun";
-    };
-
-    programs.nushell.shellAliases = {
+    my.shellAbbrs = {
       cc = "cpp23";
       cxx = "cpp23";
       cxx17 = "cpp17";
