@@ -213,6 +213,20 @@ in
       inherit shellAliases;
 
       packages = with pkgs; [
+        bfg-repo-cleaner
+        git-absorb
+        git-crypt
+        # git-surgeon is packaged as reposurgeon in nixpkgs.
+        reposurgeon
+        git-filter-repo
+        gitflow
+        gitleaks
+        gitlint
+        tig
+
+        # Installed and configured through programs.git.lfs.enable.
+        # git-lfs
+
         # actions runner for github actions
         # act
         # actionlint
