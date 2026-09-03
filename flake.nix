@@ -110,12 +110,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # generate iso/qcow2/docker/... image from nixos configuration
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     fast-nix-gc = {
       url = "github:Mic92/fast-nix-gc";
       inputs.nixpkgs.follows = "nixpkgs";

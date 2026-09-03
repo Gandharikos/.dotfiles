@@ -19,18 +19,27 @@ in
 
   config = mkIf cfg.enable {
     environment.systemPackages = [
-      (pkgs.writeScriptBin "lxc-build-nixos-image" ''
-        #!/usr/bin/env nix-shell
-        #!nix-shell -i bash -p nixos-generators
-        set -xe
-        config=$1
-        metaimg=`nixos-generate -f lxc-metadata \
-          | xargs -r cat \
-          | awk '{print $3}'`
-        img=`nixos-generate -c $config -f lxc \
-          | xargs -r cat \
-          | awk '{print $3}'`
-        lxc image import --alias nixos $metaimg $img
+      (pkgs.writeShellScriptBin "lxc-build-nixos-image" ''
+        set -euo pipefail
+
+        if [[ $# -ne 1 ]]; then
+          echo "Usage: lxc-build-nixos-image <flake#host>" >&2
+          exit 2
+        fi
+
+        flakeTarget="$1"
+        metaImage="$(${lib.getExe pkgs.nixos-rebuild} build-image \
+          --no-reexec \
+          --no-link \
+          --flake "$flakeTarget" \
+          --image-variant lxc-metadata)"
+        image="$(${lib.getExe pkgs.nixos-rebuild} build-image \
+          --no-reexec \
+          --no-link \
+          --flake "$flakeTarget" \
+          --image-variant lxc)"
+
+        lxc image import --alias nixos "$metaImage" "$image"
       '')
     ];
   };

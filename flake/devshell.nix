@@ -78,12 +78,6 @@
             '';
             category = "dev";
           }
-          {
-            help = "Generate NixOS configuration with nixos-generators.";
-            name = "generate";
-            command = "${pkgs.lib.getExe' inputs'.nixos-generators.packages.nixos-generate "nixos-generate"} $@";
-            category = "dev";
-          }
         ];
       };
     };

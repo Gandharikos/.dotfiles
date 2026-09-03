@@ -24,7 +24,6 @@
           [
             inputs.home-manager.nixosModules.home-manager
             inputs.disko.nixosModules.disko
-            inputs.nixos-generators.nixosModules.all-formats
             # inputs.niri.nixosModules.niri
             inputs.sops.nixosModules.sops
           ]
