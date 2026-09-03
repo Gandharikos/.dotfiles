@@ -150,6 +150,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    microvm = {
+      url = "github:microvm-nix/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # this is a tool to install nixos
     nixos-anywhere = {
       url = "github:nix-community/nixos-anywhere";

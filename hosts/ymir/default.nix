@@ -1,3 +1,6 @@
 {
-  modules = [ ./config.nix ];
+  modules = [
+    ./config.nix
+    ./microvm.nix
+  ];
 }

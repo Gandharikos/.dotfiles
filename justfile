@@ -37,11 +37,11 @@ boot host=`hostname -s` *args: (builder "boot" host args)
 [no-exit-message]
 test host=`hostname -s` *args: (builder "test" host args)
 
-[group('rebuild')]
+[group('virtualization')]
 [no-exit-message]
-vm host="mimir" *args:
-    nix build path:{{ flake }}#nixosConfigurations.{{ host }}.config.system.build.vm {{ args }}
-    ./result/bin/run-{{ host }}-vm
+vm host="mimir":
+    sudo systemctl start "install-microvm-{{ host }}.service"
+    sudo systemctl start "microvm@{{ host }}.service"
 
 [group('rebuild')]
 [no-exit-message]
