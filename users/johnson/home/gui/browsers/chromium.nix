@@ -89,8 +89,8 @@ in
         # Dark Reader
         {
           id = "eimadpbcbfnmbkopoojfekhnkhdbieeh";
-          version = "4.9.129";
-          hash = "sha256-ncsb1tytQ4kt3AKP9l+YLfPtuhNammRF5PpxZx43qhM=";
+          version = "4.9.130";
+          hash = "sha256-hPyoKRkZ9of85y7XLHFpel8gOvbsQB52eOjrRFQARr0=";
         }
 
         # Vimium C
@@ -131,8 +131,8 @@ in
         # Video Speed Controller
         {
           id = "nffaoalbilbmmfgbnbgppjihopabppdk";
-          version = "0.10.2";
-          hash = "sha256-bJUxLYTCx+UCbpxZW0+By4NfK2oiYxWbhy+766a0dUY=";
+          version = "0.11.1";
+          hash = "sha256-ABYK5oYRfoLVErUwlIUdSp1BYcUp3Sm5BO8wSWARqbo=";
         }
 
         # ChatGPT Equation Renderer
@@ -159,15 +159,15 @@ in
         # stylus
         {
           id = "clngdbkpkpeebahjckkjfobafhncgmne";
-          version = "2.4.10";
-          hash = "sha256-+A+9w8Fc7VJD3Azofjyhchmpd2QQhDPoKsfkD6C9cpM=";
+          version = "2.4.11";
+          hash = "sha256-7JnTWC0q3DykvmwJaDvEaLKUDK65iPC7T7EXwS/AHfY=";
         }
 
         # Bitwarden
         {
           id = "nngceckbapebfimnlniiiahkandclblb";
-          version = "2026.7.0";
-          hash = "sha256-PwXLkgGS9YjvBRUHgwiEtqiXkXmWngv3xA4Boqj9f74=";
+          version = "2026.8.0";
+          hash = "sha256-0aWULZwjTQM4LamSeZMgVQZMquejLMmxV5QMhjFl1Z8=";
         }
 
         # at://wormhole
@@ -215,8 +215,8 @@ in
         # refined github
         {
           id = "hlepfoohegkhhmjieoechaddaejaokhf";
-          version = "26.8.8";
-          hash = "sha256-YMxdns0GeVQieUCsQiJRS2CGHC0JwVSmNZ4vApKPasw=";
+          version = "26.9";
+          hash = "sha256-YpNxRQ1IkD/sYTW3wSoSvlYR9kyH5i5kyB1PwEfKF/c=";
         }
       ];
 
