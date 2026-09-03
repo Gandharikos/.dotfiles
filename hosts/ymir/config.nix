@@ -7,6 +7,18 @@
     (import ../common/disko/luks-btrfs-tmpfs.nix { })
   ];
 
+  boot.lanzaboote = {
+    configurationLimit = 8;
+    measuredBoot = {
+      enable = true;
+      pcrs = [
+        0
+        4
+        7
+      ];
+    };
+  };
+
   dot = {
     primaryUser = "johnson";
     users.johnson.shell = "nushell";
