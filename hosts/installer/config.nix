@@ -56,5 +56,8 @@ in
     # configures the network interface(include wireless) via `nmcli` & `nmtui`
     networkmanager.enable = true;
   };
+
+  # Keep the generator available in the installation and recovery environment.
+  system.tools.nixos-generate-config.enable = true;
   system.stateVersion = "25.11";
 }

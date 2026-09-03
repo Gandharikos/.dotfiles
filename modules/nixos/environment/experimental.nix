@@ -5,6 +5,7 @@
 #
 # WARNING: some of these options are experimental meaning they will and can
 # break things. so use at your own risk
+{ lib, ... }:
 {
   # We enable Systemd in the initrd so we can use it to mount the root
   # filesystem this will remove Perl form the activation
@@ -15,6 +16,9 @@
   services.userborn.enable = true;
 
   system = {
+    # Keep the Perl-based hardware configuration generator off installed systems.
+    tools.nixos-generate-config.enable = lib.mkDefault false;
+
     # nixos-init will going to make our system more robust in principal
     # see <https://github.com/NixOS/nixpkgs/blob/9bf13c9c35c9e80fab6fa3161ec0a09c1ec9a3be/pkgs/by-name/ni/nixos-init/README.md>
     nixos-init.enable = true;
