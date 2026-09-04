@@ -91,6 +91,8 @@ in
 
     jujutsu.enable = !isMinimal;
 
+    kubernetes.enable = !isMinimal;
+
     langs = {
       cc = {
         enable = true;
