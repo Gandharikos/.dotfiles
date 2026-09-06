@@ -29,6 +29,7 @@
               },
               {
                 "type": "basic",
+                "conditions": [{ "type": "variable_unless", "name": "tab_layer", "value": 1 }],
                 "from": {
                   "key_code": "left_command",
                   "modifiers": { "optional": ["any"] }
@@ -518,6 +519,77 @@
                 "to": [{ "set_variable": { "name": "tab_layer", "value": 1 } }],
                 "to_after_key_up": [{ "set_variable": { "name": "tab_layer", "value": 0 } }],
                 "to_if_alone": [{ "key_code": "tab" }]
+              },
+              {
+                "conditions": [{ "type": "variable_if", "name": "tab_layer", "value": 1 }],
+                "type": "basic",
+                "from": {
+                  "key_code": "left_command",
+                  "modifiers": { "optional": ["any"] }
+                },
+                "to": [{ "key_code": "left_control", "modifiers": ["left_option", "left_command"] }]
+              },
+              {
+                "conditions": [{ "type": "variable_if", "name": "tab_layer", "value": 1 }],
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": { "mandatory": ["option"], "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "key_code": "left_arrow",
+                    "modifiers": ["left_control", "left_option", "left_command"]
+                  }
+                ]
+              },
+              {
+                "conditions": [{ "type": "variable_if", "name": "tab_layer", "value": 1 }],
+                "type": "basic",
+                "from": {
+                  "key_code": "l",
+                  "modifiers": { "mandatory": ["option"], "optional": ["any"] }
+                },
+                "to": [
+                  {
+                    "key_code": "right_arrow",
+                    "modifiers": ["left_control", "left_option", "left_command"]
+                  }
+                ]
+              },
+              {
+                "conditions": [{ "type": "variable_if", "name": "tab_layer", "value": 1 }],
+                "type": "basic",
+                "from": {
+                  "key_code": "h",
+                  "modifiers": {
+                    "mandatory": ["control", "option", "command"],
+                    "optional": ["any"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "left_arrow",
+                    "modifiers": ["left_control", "left_option", "left_command"]
+                  }
+                ]
+              },
+              {
+                "conditions": [{ "type": "variable_if", "name": "tab_layer", "value": 1 }],
+                "type": "basic",
+                "from": {
+                  "key_code": "l",
+                  "modifiers": {
+                    "mandatory": ["control", "option", "command"],
+                    "optional": ["any"]
+                  }
+                },
+                "to": [
+                  {
+                    "key_code": "right_arrow",
+                    "modifiers": ["left_control", "left_option", "left_command"]
+                  }
+                ]
               },
               {
                 "conditions": [{ "type": "variable_if", "name": "tab_layer", "value": 1 }],
