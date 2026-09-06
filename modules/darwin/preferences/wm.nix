@@ -1,7 +1,8 @@
 {
   system.defaults.CustomUserPreferences = {
-    # Display have separate spaces
-    "com.apple.spaces"."spans-displays" = true;
+    # Enable “Displays have separate Spaces”. The preference key is inverse:
+    # false means Spaces do not span displays.
+    "com.apple.spaces"."spans-displays" = false;
 
     "com.apple.WindowManager" = {
       # Click wallpaper to reveal desktop
