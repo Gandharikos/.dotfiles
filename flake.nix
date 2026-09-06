@@ -198,13 +198,22 @@
     };
 
     # hyprwm
-    hyprland.url = "github:hyprwm/hyprland";
+    hyprland = {
+      url = "github:hyprwm/hyprland";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "systems";
+        pre-commit-hooks.follows = "pre-commit-hooks";
+      };
+    };
 
     hypridle = {
       url = "github:hyprwm/hypridle";
       inputs = {
         hyprlang.follows = "hyprland/hyprlang";
         hyprutils.follows = "hyprland/hyprutils";
+        hyprland-protocols.follows = "hyprland/hyprland-protocols";
+        hyprwayland-scanner.follows = "hyprland/hyprwayland-scanner";
         nixpkgs.follows = "hyprland/nixpkgs";
         systems.follows = "hyprland/systems";
       };
