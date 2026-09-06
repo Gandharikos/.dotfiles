@@ -12,4 +12,6 @@
       terminal.size = 14;
     };
   };
+
+  nixporn.transparent = true;
 }
