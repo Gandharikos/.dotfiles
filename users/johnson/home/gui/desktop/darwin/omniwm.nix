@@ -16,7 +16,7 @@ let
   inherit (cfg.workspace) number;
 
   omniwmLib = inputs.omniwm.lib;
-  modKey = "Hyper";
+  modKey = "Control+Option+Command";
   workspaceCount = if number > 9 then 9 else number;
 
   keyName = toUpper;
@@ -65,6 +65,7 @@ in
 
             focus = {
               followsMouse = true;
+              moveMouseToFocusedWindow = true;
               followsWindowToMonitor = true;
             };
 
@@ -76,6 +77,10 @@ in
                 top = 5.0;
                 right = 5.0;
               };
+            };
+
+            borders = {
+              enabled = false;
             };
 
             niri = {
@@ -128,7 +133,8 @@ in
                 "setWindowSecondarySpan.decrease10Percent" = "${modKey}+Shift+Minus";
                 "setWindowSecondarySpan.increase10Percent" = "${modKey}+Shift+Equal";
 
-                "workspaceBackAndForth" = "${modKey}+Backspace";
+                "focusPrevious" = "Unassigned";
+                "workspaceBackAndForth" = "${modKey}+Delete";
                 "switchWorkspace.previous" = "${modKey}+Left Bracket";
                 "switchWorkspace.next" = "${modKey}+Right Bracket";
                 "moveColumnToWorkspaceUp" = "${modKey}+Shift+Left Bracket";
