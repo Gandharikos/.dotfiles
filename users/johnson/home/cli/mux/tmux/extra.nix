@@ -21,6 +21,7 @@ in
     set -g extended-keys-format csi-u
     set -as terminal-features 'xterm*:extkeys'
     set -gs exit-empty on
+    set -g renumber-windows on
 
     # undercurl support
     set -as terminal-overrides ',*:Smulx=\E[4::%p1%dm'
