@@ -24,12 +24,12 @@ in
       gnome-console
       gnome-font-viewer
       gnome-maps
-      gnome-photos
       gnome-shell-extensions
       gnome-tour
       gpu-screen-recorder # GPU-accelerated screen recorder
       grim
       imagemagick # Image manipulation
+      loupe
       playerctl
       slurp
       tesseract5
