@@ -98,6 +98,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # macOS tiling window manager
+    omniwm = {
+      url = "git+https://github.com/mst-mkt/omniwm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # make homebrew reproducible
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
 

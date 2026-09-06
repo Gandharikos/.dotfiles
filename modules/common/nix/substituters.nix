@@ -21,6 +21,7 @@
       "https://yazi.cachix.org"
       "https://nix-gaming.cachix.org"
       "https://cache.numtide.com"
+      "https://mst-mkt.cachix.org"
     ];
     trusted-public-keys = [
       "cache.dos.cit.tum.de-1:ZCSRbf/HsV0XwrrfR4dC6HyrjqwqKXmR/hDPsYyZ9Sg="
@@ -30,6 +31,7 @@
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       "yazi.cachix.org-1:Dcdz63NZKfvUCbDGngQDAZq6kOroIrFoyO064uvLh8k="
       "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+      "mst-mkt.cachix.org-1:Ap1WSTd2tPEsFkNutQ7+X8OGtv7kOy9Q+xzvBvcL7FU="
     ];
   };
 }

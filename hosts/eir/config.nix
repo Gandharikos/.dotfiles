@@ -6,6 +6,10 @@
       layout = "qwerty";
       backend = "karabiner";
     };
-    users.johnson.home.my.gui.terminal.size = 14;
+    gui.desktop.default = "omniwm";
+    users.johnson.home.my.gui = {
+      desktop.workspace.number = 9;
+      terminal.size = 14;
+    };
   };
 }

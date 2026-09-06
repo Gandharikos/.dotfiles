@@ -25,7 +25,10 @@ let
     "bspwm"
     "awesome"
   ];
-  darwinChoices = [ "aerospace" ];
+  darwinChoices = [
+    "aerospace"
+    "omniwm"
+  ];
 in
 {
   # Top-level GUI enable option

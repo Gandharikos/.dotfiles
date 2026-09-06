@@ -111,6 +111,24 @@ let
       ] aerospaceFormat n;
     in
     builtins.listToAttrs ws;
+
+  mkOmniwmWorkspaces =
+    modKey: n:
+    let
+      count = if n > 9 then 9 else n;
+    in
+    builtins.concatLists (
+      builtins.genList (i: [
+        {
+          id = "switchWorkspace.${toString i}";
+          binding = "${modKey}+${toString (i + 1)}";
+        }
+        {
+          id = "moveToWorkspace.${toString i}";
+          binding = "${modKey}+Shift+${toString (i + 1)}";
+        }
+      ]) count
+    );
 in
 {
   inherit
@@ -118,5 +136,6 @@ in
     mkHyprWorkspaces
     mkHyprMoveTo
     mkAerospaceWorkspaces
+    mkOmniwmWorkspaces
     ;
 }

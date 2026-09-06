@@ -2030,6 +2030,26 @@
         "type": "github"
       }
     },
+    "omniwm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788523089,
+        "narHash": "sha256-U5i3h+AR4fn4A1sZZuQ1p5fMEyZhx0q9SApout3o2jE=",
+        "ref": "refs/heads/main",
+        "rev": "1f7274b91816ab12dee7a8bd7623997b99615bac",
+        "revCount": 21,
+        "type": "git",
+        "url": "https://github.com/mst-mkt/omniwm.nix"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://github.com/mst-mkt/omniwm.nix"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat_4",
@@ -2206,6 +2226,7 @@
         "noctalia-official-plugins": "noctalia-official-plugins",
         "noctalia-qs": "noctalia-qs",
         "nvidia-patch": "nvidia-patch",
+        "omniwm": "omniwm",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "preservation": "preservation",
         "simple-nixos-mailserver": "simple-nixos-mailserver",

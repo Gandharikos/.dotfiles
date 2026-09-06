@@ -4,4 +4,6 @@
     json.enable = false;
     manpages.enable = false;
   };
+
+  programs.man.generateCaches = false;
 }
