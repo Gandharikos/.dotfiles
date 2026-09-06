@@ -7,6 +7,12 @@
 {
   imports = [ inputs.fast-nix-gc.nixosModules.default ];
 
+  dot.nix.excludedInputs = [
+    "darwin"
+    "nix-homebrew"
+    "omniwm"
+  ];
+
   nix = {
     gc.automatic = lib.mkForce false;
     optimise.automatic = lib.mkForce false;

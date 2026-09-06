@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   pkgs,
@@ -6,33 +7,44 @@
   ...
 }:
 let
-  inherit (lib.attrsets) filterAttrs attrValues mapAttrs;
   inherit (lib.modules) mkForce mkIf;
-  inherit (lib.types) isType;
   inherit (pkgs.stdenv.hostPlatform) isLinux;
-  flakeInputs = filterAttrs (name: value: (isType "flake" value) && (name != "self")) inputs;
+  # Check names before types to avoid fetching excluded inputs.
+  flakeInputs = lib.filterAttrs (
+    name: value:
+    name != "self" && !(builtins.elem name config.dot.nix.excludedInputs) && lib.isType "flake" value
+  ) inputs;
   sudoers = if (_class == "nixos") then "@wheel" else "@admin";
 in
 {
+  options.dot.nix.excludedInputs = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = [ ];
+    example = [ "wallpapers" ];
+    description = ''
+      Flake input names to exclude from automatic registry and NIX_PATH entries.
+      Platform modules and profiles can append exclusions. This does not prevent
+      other modules from referencing these inputs. The nixpkgs registry entry
+      remains pinned independently.
+    '';
+  };
+
   # Auto upgrade nix package and the daemon service.
   # services.nix-daemon.enable = true;
   # Use this instead of services.nix-daemon.enable if you
   # don't wan't the daemon service to be managed for you.
   # nix.useDaemon = true;
-  nix = {
-    # pin the registry to avoid downloading and evaluating a new nixpkgs version everytime
-    # Define global flakes for this system
-    # make `nix run nixpkgs#nixpkgs` use the same nixpkgs as the one used by this flake.
-    registry = (mapAttrs (_: flake: { inherit flake; }) flakeInputs) // {
+  config.nix = {
+    registry = (lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs) // {
       # https://github.com/NixOS/nixpkgs/pull/388090
       nixpkgs = mkForce { flake = inputs.nixpkgs; };
     };
-    # We love legacy support (for now)
     nixPath =
-      if (_class == "nixos") then
-        attrValues (mapAttrs (k: v: "${k}=flake:${v.outPath}") flakeInputs)
+      if _class == "nixos" then
+        lib.attrValues (lib.mapAttrs (name: flake: "${name}=flake:${flake.outPath}") flakeInputs)
       else
-        mkForce (mapAttrs (_: v: v.outPath) flakeInputs);
+        mkForce (lib.mapAttrs (_: flake: flake.outPath) flakeInputs);
+
     # automatically optimise /nix/store/  by removing hard links
     optimise.automatic = true;
     gc = {

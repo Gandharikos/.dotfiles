@@ -19,5 +19,18 @@ in
 
   config = mkIf cfg.enable {
     dot.gui.enable = mkForce false;
+    dot.nix.excludedInputs = [
+      "dms"
+      "hypr-dynamic-cursors"
+      "hypridle"
+      "hyprland"
+      "niri"
+      "noctalia"
+      "noctalia-official-plugins"
+      "noctalia-qs"
+      "vicinae"
+      "vicinae-extensions"
+      "wallpapers"
+    ];
   };
 }

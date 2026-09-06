@@ -7,6 +7,34 @@
 {
   imports = [ inputs.fast-nix-gc.darwinModules.default ];
 
+  dot.nix.excludedInputs = [
+    "asus-dialpad-driver"
+    "dedsec-grub-theme"
+    "disko"
+    "dms"
+    "hardware"
+    "hypr-dynamic-cursors"
+    "hypridle"
+    "hyprland"
+    "lanzaboote"
+    "microvm"
+    "niri"
+    "nix-gaming"
+    "nix-topology"
+    "nixos-anywhere"
+    "nixpak"
+    "noctalia"
+    "noctalia-official-plugins"
+    "noctalia-qs"
+    "nvidia-patch"
+    "preservation"
+    "simple-nixos-mailserver"
+    "vicinae"
+    "vicinae-extensions"
+    "wallpapers"
+    "wsl"
+  ];
+
   nix = {
     gc.automatic = lib.mkForce false;
     optimise.automatic = lib.mkForce false;
