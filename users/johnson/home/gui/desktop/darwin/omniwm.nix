@@ -34,6 +34,10 @@ let
   inherit (omniwmLib) appRule;
 in
 {
+  # TODO: Migrate to Home Manager's built-in OmniWM module and remove inputs.omniwm
+  # and its overlay once helpers, full defaults/per-ID hotkey merging, and writable
+  # settings deployment are preserved; use the nixpkgs package instead.
+  disabledModules = [ "programs/omniwm.nix" ];
   imports = [ inputs.omniwm.homeManagerModules.default ];
 
   config =
